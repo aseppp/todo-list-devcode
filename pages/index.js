@@ -17,7 +17,7 @@ import { AlertContext } from '@/context/AlertContext';
 
 export default function Home() {
   const [isDelete] = useContext(AlertContext);
-  const [isAdd, setIsAdd] = useState(true);
+  const [isAdd, setIsAdd] = useState(false);
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data, error, isLoading } = useSwr(
     isAdd
@@ -37,12 +37,8 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (!isAdd) {
-      setInterval(() => {
-        setIsAdd(!isAdd);
-      }, 1000);
-    }
-  }, [isAdd, setIsAdd]);
+    setIsAdd(true);
+  }, [isAdd]);
 
   if (error) {
     return (

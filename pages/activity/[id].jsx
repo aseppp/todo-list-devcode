@@ -1,3 +1,7 @@
+import ModalAdd from '@/components/Modals/ModalAdd';
+import List from '@/components/Todo/List';
+import Activity from '@/components/Todo/TodoEmpty';
+import { IsAddContext } from '@/context/IsAddContext';
 import {
   Box,
   Button,
@@ -6,10 +10,11 @@ import {
   Icon,
   Input,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowBack } from 'react-icons/io';
@@ -20,13 +25,34 @@ const DetailsActivity = () => {
   const router = useRouter();
   const activityId = router.query.id;
   const [edit, setEdit] = useState(false);
+  const [todosItem, setTodosItem] = useState([]);
+
+  const modalAdd = useDisclosure();
   const { register, watch, setValue } = useForm();
 
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  const { data, error } = useSwr(
+  const { data } = useSwr(
     `https://todo.api.devcode.gethired.id/activity-groups/${activityId}`,
     fetcher
   );
+
+  const onSubmit = () => {
+    const data = {
+      title: watch('title'),
+    };
+
+    updateTitle(activityId, data);
+  };
+
+  useEffect(() => {
+    if (data) {
+      setTodosItem(data?.todo_items);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    setValue('title', data?.title);
+  }, [setValue, data]);
 
   return (
     <>
@@ -60,7 +86,7 @@ const DetailsActivity = () => {
                   fontWeight="bold"
                   fontSize={'3xl'}
                   variant={edit ? 'outline' : 'unstyled'}
-                  onBlur={updateTitle}
+                  onBlur={onSubmit}
                 />
               </Box>
 
@@ -77,7 +103,7 @@ const DetailsActivity = () => {
 
           <Button
             data-cy="todo-add-button"
-            // onClick={onOpen}
+            onClick={modalAdd.onOpen}
             leftIcon={<AiOutlinePlus color="white" />}
             background="#16ABF8"
             color="white"
@@ -89,35 +115,42 @@ const DetailsActivity = () => {
           </Button>
         </Box>
 
-        {/* {todosItem?.length > 0 ? (
-        <Box>
-          {todosItem?.map((item, key) => (
-            <Box key={key} data-cy="list-item">
-              <List
-                title={item?.title}
-                priority={item.priority}
-                id={item.id}
-                is_active={item.is_active}
-              />
-            </Box>
-          ))}
-        </Box>
-      ) : (
-        <Activity />
-      )} */}
+        {todosItem?.length > 0 ? (
+          <Box>
+            {todosItem?.map((item, key) => (
+              <Box key={key} data-cy="list-item">
+                <List
+                  title={item?.title}
+                  priority={item.priority}
+                  id={item.id}
+                  is_active={item.is_active}
+                />
+              </Box>
+            ))}
+          </Box>
+        ) : (
+          <Activity />
+        )}
       </Container>
+
+      <ModalAdd
+        isOpen={modalAdd.isOpen}
+        onClose={modalAdd.onClose}
+        groupId={data?.id}
+      />
     </>
   );
 };
 
 export default DetailsActivity;
 
-export async function updateTitle(id) {
+export async function updateTitle(id, data) {
   const response = await fetch(
     `https://todo.api.devcode.gethired.id/activity-groups/${id}`,
     {
-      method: 'DELETE',
+      method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
     }
   );
 

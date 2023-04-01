@@ -12,6 +12,15 @@ export default function Home() {
     fetcher
   );
 
+  const onSubmit = async () => {
+    const data = {
+      title: 'New Activity',
+      email: 'saepudinasep86@gmail.com',
+    };
+
+    await createActivity(data);
+  };
+
   if (error) {
     return (
       <Container maxW="1100px">
@@ -131,9 +140,9 @@ export default function Home() {
               _hover={{ bg: '#16ABF8' }}
               size="lg"
               borderRadius={'3xl'}
-              // isLoading={data.loading}
+              isLoading={data.loading}
               loadingText="Submitting"
-              // isDisabled={data.loading}
+              isDisabled={data.loading}
             >
               <Text>Tambah</Text>
             </Button>
@@ -161,4 +170,21 @@ export default function Home() {
       </main>
     </>
   );
+}
+
+export async function createActivity(data) {
+  const response = await fetch(
+    'https://todo.api.devcode.gethired.id/activity-groups',
+    {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+
+  return await response.json;
 }

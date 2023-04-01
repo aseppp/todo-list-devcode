@@ -12,8 +12,11 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import useSwr from 'swr';
 import Card from '@/components/Activity/Card';
 import Dashboard from '@/components/Dashboard/DashboardEmpty';
+import React, { useContext, useEffect, useState } from 'react';
+import { AlertContext } from '@/context/AlertContext';
 
 export default function Home() {
+  const [isDelete, setIsDelete] = useContext(AlertContext);
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data, error, isLoading } = useSwr(
     `https://todo.api.devcode.gethired.id/activity-groups?email=saepudinasep86@gmail.com`,
@@ -124,12 +127,18 @@ export default function Home() {
 
       <main>
         <Container maxW={['100%', '100%', '1100px']}>
-          <Box data-cy="modal-information">
-            <Alert status="success" variant="solid">
-              <AlertIcon />
-              Data uploaded to the server. Fire on!
-            </Alert>
-          </Box>
+          {isDelete && (
+            <Box data-cy="modal-information" mt={5}>
+              <Alert
+                data-cy="modal-information"
+                status="success"
+                variant="solid"
+              >
+                <AlertIcon />
+                Delete activity success!
+              </Alert>
+            </Box>
+          )}
 
           <Box
             my={8}

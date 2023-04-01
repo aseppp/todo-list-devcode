@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -12,11 +12,13 @@ import {
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
+import { AlertContext } from '@/context/AlertContext';
 
 const Card = ({ title, date, id }) => {
   const router = useRouter();
   const btnRef = useRef();
   const modalDelete = useDisclosure();
+  const [isDelete, setIsDelete] = useContext(AlertContext);
 
   const formatDate = (dateString) => {
     const date = dayjs(dateString).locale('id');
@@ -26,6 +28,14 @@ const Card = ({ title, date, id }) => {
   const handleClick = (e) => {
     if (e.target !== btnRef.current) router.push('/activity/' + id);
   };
+
+  useEffect(() => {
+    if (isDelete) {
+      setInterval(() => {
+        setIsDelete(!isDelete);
+      }, 5000);
+    }
+  }, [isDelete, setIsDelete]);
 
   return (
     <>
@@ -124,6 +134,7 @@ const Card = ({ title, date, id }) => {
                 onClick={() => {
                   modalDelete.onClose();
                   deleteData(id);
+                  setIsDelete(!isDelete);
                 }}
               >
                 Hapus

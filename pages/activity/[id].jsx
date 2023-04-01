@@ -29,7 +29,7 @@ const DetailsActivity = () => {
   const [result, setResult] = useState(null);
   const [edit, setEdit] = useState(false);
   const [isAdd] = useContext(IsAddContext);
-  const [isDelete, setIsDelete] = useContext(AlertContext);
+  const [isDelete] = useContext(AlertContext);
 
   const modalAdd = useDisclosure();
   const { register, watch, setValue } = useForm();
@@ -41,15 +41,7 @@ const DetailsActivity = () => {
         setResult(data);
         setValue('title', data?.title);
       });
-  }, [isAdd, activityId, setValue, isDelete]);
-
-  //   useEffect(() => {
-  //     if (isDelete) {
-  //       setInterval(() => {
-  //         setIsDelete(!isDelete);
-  //       }, 4000);
-  //     }
-  //   }, [isDelete, setIsDelete]);
+  }, [isAdd, activityId, setValue, isDelete, setResult]);
 
   const onSubmit = () => {
     const data = {
@@ -150,6 +142,7 @@ const DetailsActivity = () => {
         isOpen={modalAdd.isOpen}
         onClose={modalAdd.onClose}
         groupId={result?.id}
+        type="create"
       />
     </>
   );

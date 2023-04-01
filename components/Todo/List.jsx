@@ -11,10 +11,12 @@ import { FiTrash2 } from 'react-icons/fi';
 import { TbPencil } from 'react-icons/tb';
 import Badges from '../Badge/Badge';
 import ModalDelete from '../Modals/ModalDelete';
+import ModalAdd from '../Modals/ModalAdd';
 
 const List = ({ title, priority, id, is_active }) => {
   const [isChecked, setIsChecked] = useState(is_active === 0);
   const modalDelete = useDisclosure();
+  const modalTask = useDisclosure();
 
   const handleUpdate = () => {
     if (is_active === 0) {
@@ -72,7 +74,7 @@ const List = ({ title, priority, id, is_active }) => {
             display="flex"
             alignItems={'center'}
             onClick={() => {
-              modalTodo.onOpen();
+              modalTask.onOpen();
             }}
           >
             <Icon as={TbPencil} w={6} h={6} color="#C4C4C4" />
@@ -97,25 +99,12 @@ const List = ({ title, priority, id, is_active }) => {
         id={id}
       />
 
-      {/* <Modals
-        type={'add-items'}
-        isOpen={modalTodo.isOpen}
-        onClose={modalTodo.onClose}
-        groupId={id}
-        action='task-update'
+      <ModalAdd
+        isOpen={modalTask.isOpen}
+        onClose={modalTask.onClose}
         id={id}
-        title={title}
+        type="update"
       />
-
-      <Modals
-        type={'modal-delete'}
-        isOpen={modalDelete.isOpen}
-        onClose={modalDelete.onClose}
-        groupId={id}
-        action='task-delete'
-        id={id}
-        title={title}
-      /> */}
     </>
   );
 };

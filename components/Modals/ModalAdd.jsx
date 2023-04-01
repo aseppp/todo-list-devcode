@@ -18,19 +18,41 @@ import {
 import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-const ModalAdd = ({ isOpen, onClose, groupId }) => {
+const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
   const [isAdd, setIsAdd] = useContext(IsAddContext);
   const { register, watch, handleSubmit } = useForm();
 
   const onSubmit = () => {
-    const data = {
-      title: watch('title'),
-      activity_group_id: groupId,
-      priority: watch('priority'),
-    };
+    if (type === 'create') {
+      const data = {
+        title: watch('title'),
+        activity_group_id: groupId,
+        priority: watch('priority'),
+      };
+      saveTask(data);
+      setIsAdd(prevState => !prevState);
+    }
 
-    saveTask(data);
-    setIsAdd((prevState) => !prevState);
+    if (type === 'update') {
+      const data = {
+        title: watch('title'),
+        priority: watch('priority'),
+        is_active: 1,
+      };
+
+      updateTask(id, data);
+      setIsAdd(prevState => !prevState);
+      setIsAdd(!isAdd);
+    }
+
+    // const data = {
+    //   title: watch('title'),
+    //   activity_group_id: groupId,
+    //   priority: watch('priority'),
+    // };
+
+    // saveTask(data);
+    // setIsAdd(prevState => !prevState);
   };
 
   return (
@@ -40,7 +62,8 @@ const ModalAdd = ({ isOpen, onClose, groupId }) => {
           <ModalOverlay />
           <ModalContent>
             <ModalHeader data-cy="modal-add-title">
-              Tambah List Item
+              {type === 'create' && ' Tambah List Item'}
+              {type === 'update' && ' Ubah List Item'}
             </ModalHeader>
             <Divider size="lg" orientation="horizontal" />
             <ModalCloseButton data-cy="modal-add-close-button" />
@@ -108,6 +131,19 @@ export async function saveTask(data) {
     `https://todo.api.devcode.gethired.id/todo-items`,
     {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }
+  );
+
+  return await response.json;
+}
+
+export async function updateTask(id, data) {
+  const response = await fetch(
+    `https://todo.api.devcode.gethired.id/todo-items/${id}`,
+    {
+      method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }

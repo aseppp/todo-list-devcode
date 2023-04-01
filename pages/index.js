@@ -16,10 +16,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AlertContext } from '@/context/AlertContext';
 
 export default function Home() {
-  const [isDelete, setIsDelete] = useContext(AlertContext);
+  const [isDelete] = useContext(AlertContext);
+  const [isAdd, setIsAdd] = useState(true);
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data, error, isLoading } = useSwr(
-    `https://todo.api.devcode.gethired.id/activity-groups?email=saepudinasep86@gmail.com`,
+    isAdd
+      ? `https://todo.api.devcode.gethired.id/activity-groups?email=saepudinasep86@gmail.com`
+      : null,
     fetcher
   );
 
@@ -30,7 +33,16 @@ export default function Home() {
     };
 
     await createActivity(data);
+    setIsAdd(!isAdd);
   };
+
+  useEffect(() => {
+    if (!isAdd) {
+      setInterval(() => {
+        setIsAdd(!isAdd);
+      }, 1000);
+    }
+  }, [isAdd, setIsAdd]);
 
   if (error) {
     return (

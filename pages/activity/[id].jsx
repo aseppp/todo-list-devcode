@@ -1,8 +1,11 @@
 import ModalAdd from '@/components/Modals/ModalAdd';
 import List from '@/components/Todo/List';
 import Activity from '@/components/Todo/TodoEmpty';
+import { AlertContext } from '@/context/AlertContext';
 import { IsAddContext } from '@/context/IsAddContext';
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Container,
@@ -26,18 +29,27 @@ const DetailsActivity = () => {
   const [result, setResult] = useState(null);
   const [edit, setEdit] = useState(false);
   const [isAdd] = useContext(IsAddContext);
+  const [isDelete, setIsDelete] = useContext(AlertContext);
 
   const modalAdd = useDisclosure();
   const { register, watch, setValue } = useForm();
 
   useEffect(() => {
     fetch(`https://todo.api.devcode.gethired.id/activity-groups/${activityId}`)
-      .then((res) => res.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         setResult(data);
         setValue('title', data?.title);
       });
-  }, [isAdd, activityId, setValue]);
+  }, [isAdd, activityId, setValue, isDelete]);
+
+  //   useEffect(() => {
+  //     if (isDelete) {
+  //       setInterval(() => {
+  //         setIsDelete(!isDelete);
+  //       }, 4000);
+  //     }
+  //   }, [isDelete, setIsDelete]);
 
   const onSubmit = () => {
     const data = {
@@ -57,6 +69,14 @@ const DetailsActivity = () => {
       </Head>
 
       <Container data-cy="new-activity" maxW={['100%', '100%', '1000px']}>
+        {isDelete && (
+          <Box data-cy="modal-information" pt={3}>
+            <Alert data-cy="modal-information" status="success" variant="solid">
+              <AlertIcon />
+              Delete task success!
+            </Alert>
+          </Box>
+        )}
         <Box
           my={8}
           display="flex"

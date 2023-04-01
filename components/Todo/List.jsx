@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
-import { Box, Button, Checkbox, Text, Icon } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Checkbox,
+  Text,
+  Icon,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { FiTrash2 } from 'react-icons/fi';
 import { TbPencil } from 'react-icons/tb';
 import Badges from '../Badge/Badge';
+import ModalDelete from '../Modals/ModalDelete';
 
 const List = ({ title, priority, id, is_active }) => {
-  const [modal, setModal] = useState(false);
   const [isChecked, setIsChecked] = useState(is_active === 0);
+  const modalDelete = useDisclosure();
 
   const handleUpdate = () => {
     if (is_active === 0) {
@@ -24,7 +32,7 @@ const List = ({ title, priority, id, is_active }) => {
   };
 
   const handleChecked = () => {
-    setIsChecked((prevValue) => !prevValue);
+    setIsChecked(prevValue => !prevValue);
     handleUpdate();
   };
 
@@ -65,7 +73,6 @@ const List = ({ title, priority, id, is_active }) => {
             alignItems={'center'}
             onClick={() => {
               modalTodo.onOpen();
-              setModal(!modal);
             }}
           >
             <Icon as={TbPencil} w={6} h={6} color="#C4C4C4" />
@@ -77,12 +84,18 @@ const List = ({ title, priority, id, is_active }) => {
           variant={'unstyled'}
           onClick={() => {
             modalDelete.onOpen();
-            setModal(!modal);
           }}
         >
           <Icon as={FiTrash2} w={5} h={5} color="#C4C4C4" />
         </Button>
       </Box>
+
+      <ModalDelete
+        isOpen={modalDelete.isOpen}
+        onClose={modalDelete.onClose}
+        title={title}
+        id={id}
+      />
 
       {/* <Modals
         type={'add-items'}

@@ -1,5 +1,13 @@
 import Head from 'next/head';
-import { Box, Button, Container, Grid, Text } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertIcon,
+  Box,
+  Button,
+  Container,
+  Grid,
+  Text,
+} from '@chakra-ui/react';
 import { AiOutlinePlus } from 'react-icons/ai';
 import useSwr from 'swr';
 import Card from '@/components/Activity/Card';
@@ -116,6 +124,13 @@ export default function Home() {
 
       <main>
         <Container maxW={['100%', '100%', '1100px']}>
+          <Box data-cy="modal-information">
+            <Alert status="success" variant="solid">
+              <AlertIcon />
+              Data uploaded to the server. Fire on!
+            </Alert>
+          </Box>
+
           <Box
             my={8}
             display="flex"

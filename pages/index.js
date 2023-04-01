@@ -172,7 +172,7 @@ export default function Home() {
             </Button>
           </Box>
 
-          {data ? (
+          {data?.data?.length > 0 ? (
             <Box data-cy="dashboard-ctivity">
               <Grid templateColumns="repeat(4, 1fr)" gap={6}>
                 {data?.data?.map((item, key) => (

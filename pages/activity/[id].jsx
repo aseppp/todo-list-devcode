@@ -19,26 +19,22 @@ import { useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowBack } from 'react-icons/io';
 import { TbPencil } from 'react-icons/tb';
-import useSwr from 'swr';
 
 const DetailsActivity = () => {
   const router = useRouter();
   const activityId = router.query.id;
   const [result, setResult] = useState(null);
   const [edit, setEdit] = useState(false);
-  const [todosItem, setTodosItem] = useState([]);
   const [isAdd] = useContext(IsAddContext);
 
   const modalAdd = useDisclosure();
   const { register, watch, setValue } = useForm();
-  console.log(result);
 
   useEffect(() => {
     fetch(`https://todo.api.devcode.gethired.id/activity-groups/${activityId}`)
       .then((res) => res.json())
       .then((data) => {
         setResult(data);
-        setTodosItem(data?.todo_items);
         setValue('title', data?.title);
       });
   }, [isAdd, activityId, setValue]);
@@ -112,9 +108,9 @@ const DetailsActivity = () => {
           </Button>
         </Box>
 
-        {todosItem?.length > 0 ? (
+        {result?.todo_items?.length > 0 ? (
           <Box>
-            {todosItem?.map((item, key) => (
+            {result?.todo_items?.map((item, key) => (
               <Box key={key} data-cy="list-item">
                 <List
                   title={item?.title}

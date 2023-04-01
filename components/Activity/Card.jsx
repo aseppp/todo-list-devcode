@@ -13,29 +13,47 @@ import {
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { AlertContext } from '@/context/AlertContext';
+import { IsAddContext } from '@/context/IsAddContext';
 
 const Card = ({ title, date, id }) => {
   const router = useRouter();
   const btnRef = useRef();
   const modalDelete = useDisclosure();
+  const [isAdd, setIsAdd] = useContext(IsAddContext);
   const [isDelete, setIsDelete] = useContext(AlertContext);
 
-  const formatDate = (dateString) => {
+  const formatDate = dateString => {
     const date = dayjs(dateString).locale('id');
     return date.format('DD MMMM YYYY');
   };
 
-  const handleClick = (e) => {
+  const handleClick = e => {
     if (e.target !== btnRef.current) router.push('/activity/' + id);
+  };
+
+  const handleSubmit = id => {
+    fetch(`https://todo.api.devcode.gethired.id/activity-groups/${id}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(res => res.json())
+      .then(() => {
+        setIsAdd(prevState => !prevState);
+        setIsAdd(!isAdd);
+      });
   };
 
   useEffect(() => {
     if (isDelete) {
       setInterval(() => {
         setIsDelete(!isDelete);
-      }, 5000);
+      }, 2000);
     }
-  }, [isDelete, setIsDelete]);
+  }, [isDelete, setIsDelete, isAdd]);
+
+  useEffect(() => {
+    setIsAdd(true);
+  }, [isAdd, setIsAdd]);
 
   return (
     <>
@@ -51,7 +69,7 @@ const Card = ({ title, date, id }) => {
         flexDirection="column"
         justifyContent="space-between"
         cursor="pointer"
-        onClick={(e) => handleClick(e)}
+        onClick={e => handleClick(e)}
       >
         <Text
           data-cy="activity-item-title"
@@ -133,7 +151,8 @@ const Card = ({ title, date, id }) => {
                 mr={3}
                 onClick={() => {
                   modalDelete.onClose();
-                  deleteData(id);
+                  handleSubmit(id);
+                  // deleteData(id);
                   setIsDelete(!isDelete);
                 }}
               >
@@ -149,18 +168,14 @@ const Card = ({ title, date, id }) => {
 
 export default Card;
 
-export async function deleteData(id) {
-  const response = await fetch(
-    `https://todo.api.devcode.gethired.id/activity-groups/${id}`,
-    {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-    }
-  );
+// export async function deleteData(id) {
+//   const response = await fetch(
+//     `https://todo.api.devcode.gethired.id/activity-groups/${id}`,
+//     {
+//       method: 'DELETE',
+//       headers: { 'Content-Type': 'application/json' },
+//     }
+//   );
 
-  if (!response.ok) {
-    throw new Error(response.statusText);
-  }
-
-  return await response.json;
-}
+//   return await response.json;
+// }

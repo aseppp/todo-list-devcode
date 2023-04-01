@@ -9,22 +9,30 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { AiOutlinePlus } from 'react-icons/ai';
-import useSwr from 'swr';
 import Card from '@/components/Activity/Card';
 import Dashboard from '@/components/Dashboard/DashboardEmpty';
 import React, { useContext, useEffect, useState } from 'react';
 import { AlertContext } from '@/context/AlertContext';
 
 export default function Home() {
+  const [result, setResult] = useState(null);
   const [isDelete] = useContext(AlertContext);
+  const [isLoading, setIsLoading] = useState(false);
   const [isAdd, setIsAdd] = useState(false);
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  const { data, error, isLoading } = useSwr(
-    isAdd
-      ? `https://todo.api.devcode.gethired.id/activity-groups?email=saepudinasep86@gmail.com`
-      : null,
-    fetcher
-  );
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetch(
+      `https://todo.api.devcode.gethired.id/activity-groups?email=saepudinasep86@gmail.com`
+    )
+      .then(res => res.json())
+      .then(data => {
+        setResult(data);
+        setIsLoading(false);
+      });
+  }, [isAdd, isDelete]);
+
+  console.log(result);
 
   const onSubmit = async () => {
     const data = {
@@ -40,49 +48,7 @@ export default function Home() {
     setIsAdd(true);
   }, [isAdd]);
 
-  if (error) {
-    return (
-      <Container maxW="1100px">
-        <Box
-          my={8}
-          display="flex"
-          justifyContent={'space-between'}
-          alignItems="center"
-        >
-          <Text
-            data-cy="activity-title"
-            fontSize={['lg', 'lg', '3xl', '3xl']}
-            fontWeight="bold"
-            lineHeight={'54px'}
-          >
-            Activity
-          </Text>
-
-          <Button
-            data-cy="activity-add-button"
-            onClick={() => onSubmit()}
-            leftIcon={<AiOutlinePlus color="white" />}
-            background="#16ABF8"
-            color="white"
-            _hover={{ bg: '#16ABF8' }}
-            size="lg"
-            borderRadius={'3xl'}
-            isLoading={!data}
-            loadingText="Submitting"
-            isDisabled={!data}
-          >
-            <Text>Tambah</Text>
-          </Button>
-        </Box>
-
-        <Box mt={5} textAlign="center">
-          <Text>Failed to get data !</Text>
-        </Box>
-      </Container>
-    );
-  }
-
-  if (!data) {
+  if (!result) {
     return (
       <Container maxW="1100px">
         <Box
@@ -111,7 +77,7 @@ export default function Home() {
             borderRadius={'3xl'}
             isLoading={isLoading}
             loadingText="Loading"
-            isDisabled={!data}
+            isDisabled={!result}
           >
             <Text>Tambah</Text>
           </Button>
@@ -136,7 +102,7 @@ export default function Home() {
       <main>
         <Container maxW={['100%', '100%', '1100px']}>
           {isDelete && (
-            <Box data-cy="modal-information" mt={5}>
+            <Box data-cy="modal-information" pt={3}>
               <Alert
                 data-cy="modal-information"
                 status="success"
@@ -172,18 +138,18 @@ export default function Home() {
               _hover={{ bg: '#16ABF8' }}
               size="lg"
               borderRadius={'3xl'}
-              isLoading={data.loading}
+              isLoading={isLoading}
               loadingText="Submitting"
-              isDisabled={data.loading}
+              isDisabled={isLoading}
             >
               <Text>Tambah</Text>
             </Button>
           </Box>
 
-          {data?.data?.length > 0 ? (
+          {result?.data?.length > 0 ? (
             <Box data-cy="dashboard-ctivity">
               <Grid templateColumns="repeat(4, 1fr)" gap={6}>
-                {data?.data?.map((item, key) => (
+                {result?.data?.map((item, key) => (
                   <Box key={key}>
                     <Card
                       key={item.id}

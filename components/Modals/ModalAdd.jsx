@@ -30,7 +30,7 @@ const ModalAdd = ({ isOpen, onClose, groupId }) => {
     };
 
     saveTask(data);
-    setIsAdd(!isAdd);
+    setIsAdd((prevState) => !prevState);
   };
 
   return (
@@ -112,10 +112,6 @@ export async function saveTask(data) {
       body: JSON.stringify(data),
     }
   );
-
-  if (!response.ok) {
-    throw new Error(response.statusText);
-  }
 
   return await response.json;
 }

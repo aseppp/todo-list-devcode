@@ -105,6 +105,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                     <MenuButton
                       as={Button}
                       rightIcon={<RiArrowDropDownLine size={'25px'} />}
+                      data-cy='modal-add-priority-dropdown'
                     >
                       <Box display='flex' alignItems={'center'}>
                         <Badges priority={priority} />
@@ -112,7 +113,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                       </Box>
                     </MenuButton>
 
-                    <MenuList data-cy='modal-add-priority-dropdown'>
+                    <MenuList>
                       <MenuItem
                         value={'very-high'}
                         name='Very High'

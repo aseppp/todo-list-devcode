@@ -94,9 +94,10 @@ const DetailsActivity = () => {
             />
 
             <FormControl display={'flex'} alignItems='center'>
-              <Box data-cy='todo-title'>
+              <Box>
                 <Input
                   {...register('title')}
+                  data-cy='todo-title'
                   type={'text'}
                   fontWeight='bold'
                   fontSize={'3xl'}

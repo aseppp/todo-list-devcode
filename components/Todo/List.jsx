@@ -65,6 +65,7 @@ const List = ({ title, priority, id, is_active }) => {
             fontSize={'18px'}
             lineHeight="27px"
             fontWeight={500}
+            textDecoration={isChecked ? 'line-through' : null}
           >
             {title}
           </Text>

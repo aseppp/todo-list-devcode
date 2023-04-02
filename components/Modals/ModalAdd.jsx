@@ -23,14 +23,13 @@ import {
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Badges from '../Badge/Badge';
+import { RiArrowDropDownLine } from 'react-icons/ri';
 
 const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
   const [isAdd, setIsAdd] = useContext(IsAddContext);
   const [priority, setPriority] = useState('');
   const [name, setName] = useState('Select Priority');
   const { register, watch, handleSubmit } = useForm();
-
-  console.log(name);
 
   const onSubmit = () => {
     if (type === 'create') {
@@ -106,7 +105,16 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                     </FormLabel>
 
                     <Menu>
-                      <MenuButton as={Button}>
+                      <MenuButton
+                        as={Button}
+                        rightIcon={
+                          <RiArrowDropDownLine
+                            size={'25px'}
+                            // width={10}
+                            // height={10}
+                          />
+                        }
+                      >
                         <Box display="flex" alignItems={'center'}>
                           <Badges priority={priority} />
                           <Text>{name}</Text>

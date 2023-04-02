@@ -32,8 +32,6 @@ export default function Home() {
       });
   }, [isAdd, isDelete]);
 
-  console.log(result);
-
   const onSubmit = async () => {
     const data = {
       title: 'New Activity',

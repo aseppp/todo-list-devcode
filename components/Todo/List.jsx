@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Box,
   Button,
@@ -12,9 +12,11 @@ import { TbPencil } from 'react-icons/tb';
 import Badges from '../Badge/Badge';
 import ModalDelete from '../Modals/ModalDelete';
 import ModalAdd from '../Modals/ModalAdd';
+import { IsAddContext } from '@/context/IsAddContext';
 
 const List = ({ title, priority, id, is_active }) => {
   const [isChecked, setIsChecked] = useState(is_active === 0);
+  const [isAdd, setIsAdd] = useContext(IsAddContext);
   const modalDelete = useDisclosure();
   const modalTask = useDisclosure();
 
@@ -34,62 +36,63 @@ const List = ({ title, priority, id, is_active }) => {
   };
 
   const handleChecked = () => {
-    setIsChecked(prevValue => !prevValue);
+    setIsChecked((prevValue) => !prevValue);
     handleUpdate();
+    setIsAdd(!isAdd);
   };
 
   return (
     <>
       <Box
-        data-cy="todo-item"
+        data-cy='todo-item'
         bg={'white'}
-        borderRadius="lg"
+        borderRadius='lg'
         boxShadow={'0px 6px 10px rgba(0, 0, 0, 0.1)'}
         padding={6}
-        display="flex"
+        display='flex'
         alignItems={'center'}
-        justifyContent="space-between"
+        justifyContent='space-between'
         mt={3}
       >
-        <Box display="flex" alignItems={'center'} gap={5}>
+        <Box display='flex' alignItems={'center'} gap={5}>
           <Checkbox
-            data-cy="todo-item-checkbox"
+            data-cy='todo-item-checkbox'
             size={'lg'}
             onChange={() => handleChecked()}
             isChecked={isChecked}
           />
-          <Badges data-cy="todo-item-priority-indicator" priority={priority} />
+          <Badges data-cy='todo-item-priority-indicator' priority={priority} />
 
           <Text
-            data-cy="todo-item-title"
+            data-cy='todo-item-title'
             fontSize={'18px'}
-            lineHeight="27px"
+            lineHeight='27px'
             fontWeight={500}
             textDecoration={isChecked ? 'line-through' : null}
           >
             {title}
           </Text>
           <Button
-            data-cy="todo-item-edit-button"
+            data-cy='todo-item-edit-button'
             variant={'unstyled'}
-            display="flex"
+            display='flex'
             alignItems={'center'}
             onClick={() => {
               modalTask.onOpen();
             }}
           >
-            <Icon as={TbPencil} w={6} h={6} color="#C4C4C4" />
+            <Icon as={TbPencil} w={6} h={6} color='#C4C4C4' />
           </Button>
         </Box>
 
         <Button
-          data-cy="todo-item-delete-button"
+          data-cy='todo-item-delete-button'
           variant={'unstyled'}
           onClick={() => {
             modalDelete.onOpen();
           }}
         >
-          <Icon as={FiTrash2} w={5} h={5} color="#C4C4C4" />
+          <Icon as={FiTrash2} w={5} h={5} color='#C4C4C4' />
         </Button>
       </Box>
 
@@ -104,7 +107,7 @@ const List = ({ title, priority, id, is_active }) => {
         isOpen={modalTask.isOpen}
         onClose={modalTask.onClose}
         id={id}
-        type="update"
+        type='update'
       />
     </>
   );

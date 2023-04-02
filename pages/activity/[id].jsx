@@ -22,7 +22,7 @@ import {
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowBack } from 'react-icons/io';
@@ -31,6 +31,7 @@ import { TbPencil, TbArrowsDownUp } from 'react-icons/tb';
 const DetailsActivity = () => {
   const router = useRouter();
   const activityId = router.query.id;
+  const titleRef = useRef();
   const [result, setResult] = useState(null);
   const [edit, setEdit] = useState(false);
   const [isAdd] = useContext(IsAddContext);
@@ -94,7 +95,7 @@ const DetailsActivity = () => {
             />
 
             <FormControl display={'flex'} alignItems='center'>
-              <Box>
+              {edit ? (
                 <Input
                   {...register('title')}
                   data-cy='todo-title'
@@ -102,9 +103,17 @@ const DetailsActivity = () => {
                   fontWeight='bold'
                   fontSize={'3xl'}
                   variant={edit ? 'outline' : 'unstyled'}
+                  // onBlur={() => {
+                  //   onSubmit;
+                  //   setEdit(!edit);
+                  // }}
                   onBlur={onSubmit}
                 />
-              </Box>
+              ) : (
+                <Text fontWeight='bold' fontSize={'3xl'} ref={titleRef}>
+                  {result?.title}
+                </Text>
+              )}
 
               <Button
                 onClick={() => setEdit(!edit)}

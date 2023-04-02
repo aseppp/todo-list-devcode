@@ -59,17 +59,6 @@ const DetailsActivity = () => {
     updateTitle(activityId, data);
   };
 
-  //   useEffect(() => {
-  //     if (selected === 'terbaru') {
-  //       setTodoItems(todoItems.sort((a, b) => a.created_at - b.created_at));
-  //       todoItems.sort((a, b) => a - b);
-  //     } else if (selected === 'asc') {
-  //       todoItems.sort((a, b) => a.title - b.title);
-  //     } else {
-  //       todoItems;
-  //     }
-  //   }, [selected, todoItems, isAdd]);
-
   console.log({ todoItems, selected });
 
   return (
@@ -129,7 +118,7 @@ const DetailsActivity = () => {
 
           <Box display="flex" alignItems="center" gap={3}>
             <Menu closeOnSelect={true}>
-              <MenuButton as={Button}>
+              <MenuButton as={Button} data-cy="todo-sort-button">
                 <Icon as={TbArrowsDownUp} />
               </MenuButton>
 
@@ -141,18 +130,21 @@ const DetailsActivity = () => {
                   Terbaru
                 </MenuItem>
                 <MenuItem
+                  data-cy="sort-selection"
                   onClick={e => setSelected(e.target.value)}
                   value={'terlama'}
                 >
                   Terlama
                 </MenuItem>
                 <MenuItem
+                  data-cy="todo-sort-button"
                   onClick={e => setSelected(e.target.value)}
                   value={'asc'}
                 >
                   A-Z
                 </MenuItem>
                 <MenuItem
+                  data-cy="todo-sort-button"
                   onClick={e => setSelected(e.target.value)}
                   value={'desc'}
                 >
@@ -185,9 +177,10 @@ const DetailsActivity = () => {
         {result?.todo_items?.length > 0 ? (
           <Box>
             {result?.todo_items
-              ?.filter(value => {
+              ?.sort(item => {
+                console.log(item);
                 if (selected === 'terbaru') {
-                  console.log(selected);
+                  console.log(value);
                 } else if (selected === 'terlama') {
                   console.log(selected);
                 } else if (selected === 'asc') {
@@ -196,10 +189,26 @@ const DetailsActivity = () => {
                   console.log(selected);
                 } else if (selected === 'belum-selesai') {
                   console.log(selected);
+                  return;
                 } else {
-                  return value;
+                  return item;
                 }
               })
+              //   ?.filter(value => {
+              //     if (selected === 'terbaru') {
+              //       console.log(value);
+              //     } else if (selected === 'terlama') {
+              //       console.log(selected);
+              //     } else if (selected === 'asc') {
+              //       console.log(selected);
+              //     } else if (selected === 'desc') {
+              //       console.log(selected);
+              //     } else if (selected === 'belum-selesai') {
+              //       console.log(selected);
+              //     } else {
+              //       return value;
+              //     }
+              //   })
               ?.map((item, key) => (
                 <Box key={key} data-cy="list-item">
                   <List

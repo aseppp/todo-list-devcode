@@ -181,7 +181,11 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                   type='submit'
                   colorScheme='blue'
                   mr={3}
-                  onClick={onClose}
+                  // onClick={onClose}
+                  onClick={() => {
+                    onClose();
+                    setIsAdd(!isAdd);
+                  }}
                 >
                   Submit
                 </Button>

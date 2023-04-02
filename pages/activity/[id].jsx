@@ -60,7 +60,7 @@ const DetailsActivity = () => {
     updateTitle(activityId, data);
   };
 
-  // console.log({ todoItems, selected });
+  console.log({ todoItems, selected });
 
   return (
     <>
@@ -224,9 +224,26 @@ const DetailsActivity = () => {
           <Activity />
         )} */}
 
-        {result?.todo_items?.length > 0 ? (
+        {/* {result?.todo_items?.length > 0 ? (
           <Box>
             {result?.todo_items?.map((item, key) => (
+              <Box key={key} data-cy='list-item'>
+                <List
+                  title={item?.title}
+                  priority={item.priority}
+                  id={item.id}
+                  is_active={item.is_active}
+                />
+              </Box>
+            ))}
+          </Box>
+        ) : (
+          <Activity />
+        )} */}
+
+        {todoItems?.length > 0 ? (
+          <Box>
+            {todoItems?.map((item, key) => (
               <Box key={key} data-cy='list-item'>
                 <List
                   title={item?.title}

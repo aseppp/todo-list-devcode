@@ -122,7 +122,7 @@ const DetailsActivity = () => {
                 <Icon as={TbArrowsDownUp} />
               </MenuButton>
 
-              <MenuList>
+              <MenuList data-cy='sort-selection'>
                 <MenuItem
                   onClick={(e) => setSelected(e.target.value)}
                   value={'terbaru'}
@@ -174,41 +174,35 @@ const DetailsActivity = () => {
           </Box>
         </Box>
 
-        {/* {result?.todo_items?.length > 0 ? (
+        {todoItems?.length > 0 ? (
           <Box>
-            {result?.todo_items
-              ?.sort((item) => {
-                console.log(item);
+            {todoItems
+              ?.sort((a, b) => {
                 if (selected === 'terbaru') {
-                  console.log(value);
+                  const id1 = a.id;
+                  const id2 = b.id;
+                  if (id1 > id2) return -1;
                 } else if (selected === 'terlama') {
-                  console.log(selected);
+                  const id1 = a.id;
+                  const id2 = b.id;
+                  if (id1 < id2) return -1;
                 } else if (selected === 'asc') {
-                  console.log(selected);
+                  const title1 = a.title;
+                  const title2 = b.title;
+                  if (title1 < title2) return -1;
                 } else if (selected === 'desc') {
-                  console.log(selected);
+                  const title1 = a.title;
+                  const title2 = b.title;
+                  if (title1 > title2) return -1;
                 } else if (selected === 'belum-selesai') {
                   console.log(selected);
-                  return;
+                  const task1 = a.is_active;
+                  const task2 = b.is_active;
+                  if (task1 > task2) return -1;
                 } else {
-                  return item;
+                  return 0;
                 }
               })
-              //   ?.filter(value => {
-              //     if (selected === 'terbaru') {
-              //       console.log(value);
-              //     } else if (selected === 'terlama') {
-              //       console.log(selected);
-              //     } else if (selected === 'asc') {
-              //       console.log(selected);
-              //     } else if (selected === 'desc') {
-              //       console.log(selected);
-              //     } else if (selected === 'belum-selesai') {
-              //       console.log(selected);
-              //     } else {
-              //       return value;
-              //     }
-              //   })
               ?.map((item, key) => (
                 <Box key={key} data-cy='list-item'>
                   <List
@@ -222,26 +216,9 @@ const DetailsActivity = () => {
           </Box>
         ) : (
           <Activity />
-        )} */}
+        )}
 
-        {/* {result?.todo_items?.length > 0 ? (
-          <Box>
-            {result?.todo_items?.map((item, key) => (
-              <Box key={key} data-cy='list-item'>
-                <List
-                  title={item?.title}
-                  priority={item.priority}
-                  id={item.id}
-                  is_active={item.is_active}
-                />
-              </Box>
-            ))}
-          </Box>
-        ) : (
-          <Activity />
-        )} */}
-
-        {todoItems?.length > 0 ? (
+        {/* {todoItems?.length > 0 ? (
           <Box>
             {todoItems?.map((item, key) => (
               <Box key={key} data-cy='list-item'>
@@ -256,7 +233,7 @@ const DetailsActivity = () => {
           </Box>
         ) : (
           <Activity />
-        )}
+        )} */}
       </Container>
 
       <ModalAdd

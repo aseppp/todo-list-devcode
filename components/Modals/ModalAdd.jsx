@@ -175,7 +175,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
               </ModalBody>
 
               <Divider size='lg' orientation='horizontal' />
-              <Box>
+              <Box display={'flex'} justifyContent='end' my={5}>
                 <Button
                   data-cy='modal-add-save-button'
                   type='submit'

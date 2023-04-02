@@ -113,7 +113,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                       </Box>
                     </MenuButton>
 
-                    <MenuList>
+                    <MenuList data-cy='data-cy=modal-add-priority-item'>
                       <MenuItem
                         value={'very-high'}
                         name='Very High'
@@ -175,7 +175,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
               </ModalBody>
 
               <Divider size='lg' orientation='horizontal' />
-              <ModalFooter>
+              <Box>
                 <Button
                   data-cy='modal-add-save-button'
                   type='submit'
@@ -185,7 +185,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                 >
                   Submit
                 </Button>
-              </ModalFooter>
+              </Box>
             </form>
           </ModalContent>
         </Modal>

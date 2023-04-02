@@ -25,6 +25,14 @@ import { useForm } from 'react-hook-form';
 import Badges from '../Badge/Badge';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 
+const options = [
+  { label: 'Very High', value: 'very-high' },
+  { label: 'High', value: 'high' },
+  { label: 'Medium', value: 'normal' },
+  { label: 'Low', value: 'low' },
+  { label: 'Very Low', value: 'very-low' },
+];
+
 const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
   const [isAdd, setIsAdd] = useContext(IsAddContext);
   const [priority, setPriority] = useState('');
@@ -36,7 +44,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
       const data = {
         title: watch('title'),
         activity_group_id: groupId,
-        priority: priority,
+        priority: watch('priority'),
       };
       saveTask(data);
       setIsAdd(prevState => !prevState);
@@ -98,16 +106,15 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                 </FormControl>
 
                 <FormControl mt={5}>
-                  <Box>
-                    <FormLabel
-                      data-cy="modal-add-priority-title"
-                      textTransform={'uppercase'}
-                      fontWeight="bold"
-                    >
-                      priority
-                    </FormLabel>
+                  <FormLabel
+                    data-cy="modal-add-priority-title"
+                    textTransform={'uppercase'}
+                    fontWeight="bold"
+                  >
+                    priority
+                  </FormLabel>
 
-                    <Menu>
+                  {/* <Menu>
                       <MenuButton
                         as={Button}
                         rightIcon={<RiArrowDropDownLine size={'25px'} />}
@@ -175,24 +182,30 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                           Very Low
                         </MenuItem>
                       </MenuList>
-                    </Menu>
-                  </Box>
-
-                  {/* <FormLabel
-                    data-cy="modal-add-priority-title"
-                    textTransform={'uppercase'}
-                    fontWeight="bold"
-                  >
-                    priority
-                  </FormLabel>
+                    </Menu> */}
 
                   <Select
                     data-cy="modal-add-name-input"
                     {...register('priority')}
+                    width="205px"
                   >
-                    <option value="very-high">Very High</option>
-                    <option value="high">High</option>
-                  </Select> */}
+                    {options.map((item, key) => (
+                      <option key={key} value={item.value}>
+                        <Badges priority={item.value} /> {item.label}
+                      </option>
+                    ))}
+
+                    {/* <Box height={'500px'}>
+                      {options.map((item, key) => (
+                        <Box key={key}>
+                          <Badges priority={item.value} />
+                          <option value={item.value}>{item.label}</option>
+                        </Box>
+                      ))}
+                    </Box> */}
+                    {/* <option value="very-high">Very High</option>
+                    <option value="high">High</option> */}
+                  </Select>
                 </FormControl>
               </ModalBody>
 

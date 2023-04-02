@@ -6,6 +6,10 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -14,20 +18,26 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Text,
 } from '@chakra-ui/react';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Badges from '../Badge/Badge';
 
 const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
   const [isAdd, setIsAdd] = useContext(IsAddContext);
+  const [priority, setPriority] = useState('');
+  const [name, setName] = useState('Select Priority');
   const { register, watch, handleSubmit } = useForm();
+
+  console.log(name);
 
   const onSubmit = () => {
     if (type === 'create') {
       const data = {
         title: watch('title'),
         activity_group_id: groupId,
-        priority: watch('priority'),
+        priority: priority,
       };
       saveTask(data);
       setIsAdd(prevState => !prevState);
@@ -86,7 +96,83 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                 </FormControl>
 
                 <FormControl mt={5}>
-                  <FormLabel
+                  <Box data-cy="modal-add-name-input">
+                    <FormLabel
+                      data-cy="modal-add-priority-title"
+                      textTransform={'uppercase'}
+                      fontWeight="bold"
+                    >
+                      priority
+                    </FormLabel>
+
+                    <Menu>
+                      <MenuButton as={Button}>
+                        <Box display="flex" alignItems={'center'}>
+                          <Badges priority={priority} />
+                          <Text>{name}</Text>
+                        </Box>
+                      </MenuButton>
+                      <MenuList data-cy="modal-add-priority-dropdown">
+                        <MenuItem
+                          value={'very-high'}
+                          name="Very High"
+                          onClick={e => {
+                            setPriority(e.target.value);
+                            setName(e.target.name);
+                          }}
+                        >
+                          <Badges priority={'very-high'} />
+                          Very High
+                        </MenuItem>
+                        <MenuItem
+                          value={'high'}
+                          name="High"
+                          onClick={e => {
+                            setPriority(e.target.value);
+                            setName(e.target.name);
+                          }}
+                        >
+                          <Badges priority={'high'} />
+                          High
+                        </MenuItem>
+                        <MenuItem
+                          value={'normal'}
+                          name="Medium"
+                          onClick={e => {
+                            setPriority(e.target.value);
+                            setName(e.target.name);
+                          }}
+                        >
+                          <Badges priority={'normal'} />
+                          Medium
+                        </MenuItem>
+                        <MenuItem
+                          value={'low'}
+                          name="Low"
+                          onClick={e => {
+                            setPriority(e.target.value);
+                            setName(e.target.name);
+                          }}
+                        >
+                          <Badges priority={'low'} />
+                          Low
+                        </MenuItem>
+                        <MenuItem
+                          value={'very-low'}
+                          name="Very Low"
+                          onClick={e => {
+                            setPriority(e.target.value);
+                            setName(e.target.name);
+                          }}
+                        >
+                          <Badges priority={'very-low'} />
+                          Very Low
+                        </MenuItem>
+                      </MenuList>
+                    </Menu>
+                  </Box>
+
+                  {/* <FormLabel
                     data-cy="modal-add-priority-title"
                     textTransform={'uppercase'}
                     fontWeight="bold"
@@ -95,12 +181,12 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                   </FormLabel>
 
                   <Select
-                    ata-cy="modal-add-name-input"
+                    data-cy="modal-add-name-input"
                     {...register('priority')}
                   >
                     <option value="very-high">Very High</option>
                     <option value="high">High</option>
-                  </Select>
+                  </Select> */}
                 </FormControl>
               </ModalBody>
 

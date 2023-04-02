@@ -11,7 +11,12 @@ import {
   Container,
   FormControl,
   Icon,
+  Image,
   Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -21,7 +26,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowBack } from 'react-icons/io';
-import { TbPencil } from 'react-icons/tb';
+import { TbPencil, TbArrowsDownUp } from 'react-icons/tb';
 
 const DetailsActivity = () => {
   const router = useRouter();
@@ -30,6 +35,8 @@ const DetailsActivity = () => {
   const [edit, setEdit] = useState(false);
   const [isAdd] = useContext(IsAddContext);
   const [isDelete] = useContext(AlertContext);
+  const [selected, setSelected] = useState('');
+  const [todoItems, setTodoItems] = useState([]);
 
   const modalAdd = useDisclosure();
   const { register, watch, setValue } = useForm();
@@ -39,6 +46,7 @@ const DetailsActivity = () => {
       .then(res => res.json())
       .then(data => {
         setResult(data);
+        setTodoItems(data?.todo_items);
         setValue('title', data?.title);
       });
   }, [isAdd, activityId, setValue, isDelete, setResult]);
@@ -50,6 +58,19 @@ const DetailsActivity = () => {
 
     updateTitle(activityId, data);
   };
+
+  //   useEffect(() => {
+  //     if (selected === 'terbaru') {
+  //       setTodoItems(todoItems.sort((a, b) => a.created_at - b.created_at));
+  //       todoItems.sort((a, b) => a - b);
+  //     } else if (selected === 'asc') {
+  //       todoItems.sort((a, b) => a.title - b.title);
+  //     } else {
+  //       todoItems;
+  //     }
+  //   }, [selected, todoItems, isAdd]);
+
+  console.log({ todoItems, selected });
 
   return (
     <>
@@ -87,7 +108,6 @@ const DetailsActivity = () => {
               <Box data-cy="todo-title">
                 <Input
                   {...register('title')}
-                  data-cy="todo-title"
                   type={'text'}
                   fontWeight="bold"
                   fontSize={'3xl'}
@@ -107,21 +127,95 @@ const DetailsActivity = () => {
             </FormControl>
           </Box>
 
-          <Button
-            data-cy="todo-add-button"
-            onClick={modalAdd.onOpen}
-            leftIcon={<AiOutlinePlus color="white" />}
-            background="#16ABF8"
-            color="white"
-            _hover={{ bg: '#16ABF8' }}
-            size="lg"
-            borderRadius={'3xl'}
-          >
-            <Text>Tambah</Text>
-          </Button>
+          <Box display="flex" alignItems="center" gap={3}>
+            <Menu closeOnSelect={true}>
+              <MenuButton as={Button}>
+                <Icon as={TbArrowsDownUp} />
+              </MenuButton>
+
+              <MenuList>
+                <MenuItem
+                  onClick={e => setSelected(e.target.value)}
+                  value={'terbaru'}
+                >
+                  Terbaru
+                </MenuItem>
+                <MenuItem
+                  onClick={e => setSelected(e.target.value)}
+                  value={'terlama'}
+                >
+                  Terlama
+                </MenuItem>
+                <MenuItem
+                  onClick={e => setSelected(e.target.value)}
+                  value={'asc'}
+                >
+                  A-Z
+                </MenuItem>
+                <MenuItem
+                  onClick={e => setSelected(e.target.value)}
+                  value={'desc'}
+                >
+                  Z-A
+                </MenuItem>
+                <MenuItem
+                  onClick={e => setSelected(e.target.value)}
+                  value={'belum-selesai'}
+                >
+                  Belum Selesai
+                </MenuItem>
+              </MenuList>
+            </Menu>
+
+            <Button
+              data-cy="todo-add-button"
+              onClick={modalAdd.onOpen}
+              leftIcon={<AiOutlinePlus color="white" />}
+              background="#16ABF8"
+              color="white"
+              _hover={{ bg: '#16ABF8' }}
+              size="lg"
+              borderRadius={'3xl'}
+            >
+              <Text>Tambah</Text>
+            </Button>
+          </Box>
         </Box>
 
         {result?.todo_items?.length > 0 ? (
+          <Box>
+            {result?.todo_items
+              ?.filter(value => {
+                if (selected === 'terbaru') {
+                  console.log(selected);
+                } else if (selected === 'terlama') {
+                  console.log(selected);
+                } else if (selected === 'asc') {
+                  console.log(selected);
+                } else if (selected === 'desc') {
+                  console.log(selected);
+                } else if (selected === 'belum-selesai') {
+                  console.log(selected);
+                } else {
+                  return value;
+                }
+              })
+              ?.map((item, key) => (
+                <Box key={key} data-cy="list-item">
+                  <List
+                    title={item?.title}
+                    priority={item.priority}
+                    id={item.id}
+                    is_active={item.is_active}
+                  />
+                </Box>
+              ))}
+          </Box>
+        ) : (
+          <Activity />
+        )}
+
+        {/* {result?.todo_items?.length > 0 ? (
           <Box>
             {result?.todo_items?.map((item, key) => (
               <Box key={key} data-cy="list-item">
@@ -136,7 +230,7 @@ const DetailsActivity = () => {
           </Box>
         ) : (
           <Activity />
-        )}
+        )} */}
       </Container>
 
       <ModalAdd

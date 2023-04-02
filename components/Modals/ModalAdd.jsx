@@ -74,8 +74,11 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
               {type === 'create' && ' Tambah List Item'}
               {type === 'update' && ' Ubah List Item'}
             </ModalHeader>
+
             <Divider size="lg" orientation="horizontal" />
+
             <ModalCloseButton data-cy="modal-add-close-button" />
+
             <form onSubmit={handleSubmit(onSubmit)}>
               <ModalBody my={8}>
                 <FormControl>
@@ -95,7 +98,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                 </FormControl>
 
                 <FormControl mt={5}>
-                  <Box data-cy="modal-add-name-input">
+                  <Box>
                     <FormLabel
                       data-cy="modal-add-priority-title"
                       textTransform={'uppercase'}
@@ -107,20 +110,15 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                     <Menu>
                       <MenuButton
                         as={Button}
-                        rightIcon={
-                          <RiArrowDropDownLine
-                            size={'25px'}
-                            // width={10}
-                            // height={10}
-                          />
-                        }
+                        rightIcon={<RiArrowDropDownLine size={'25px'} />}
                       >
                         <Box display="flex" alignItems={'center'}>
                           <Badges priority={priority} />
                           <Text>{name}</Text>
                         </Box>
                       </MenuButton>
-                      <MenuList data-cy="modal-add-priority-dropdown">
+
+                      <MenuList>
                         <MenuItem
                           value={'very-high'}
                           name="Very High"

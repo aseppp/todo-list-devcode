@@ -118,7 +118,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                         </Box>
                       </MenuButton>
 
-                      <MenuList>
+                      <MenuList data-cy="modal-add-priority-dropdown">
                         <MenuItem
                           value={'very-high'}
                           name="Very High"

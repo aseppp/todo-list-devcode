@@ -14,10 +14,8 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
   Text,
 } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from 'react';
@@ -38,6 +36,8 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
   const [priority, setPriority] = useState('');
   const [name, setName] = useState('Select Priority');
   const { register, watch, handleSubmit } = useForm();
+
+  console.log(watch());
 
   const onSubmit = () => {
     if (type === 'create') {
@@ -101,11 +101,10 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                     priority
                   </FormLabel>
 
-                  <Menu>
+                  <Menu data-cy='modal-add-priority-dropdown'>
                     <MenuButton
                       as={Button}
                       rightIcon={<RiArrowDropDownLine size={'25px'} />}
-                      data-cy='modal-add-priority-dropdown'
                     >
                       <Box display='flex' alignItems={'center'}>
                         <Badges priority={priority} />
@@ -113,7 +112,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                       </Box>
                     </MenuButton>
 
-                    <MenuList data-cy='data-cy=modal-add-priority-item'>
+                    <MenuList>
                       <MenuItem
                         value={'very-high'}
                         name='Very High'
@@ -121,6 +120,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                           setPriority(e.target.value);
                           setName(e.target.name);
                         }}
+                        data-cy='data-cy=modal-add-priority-item'
                       >
                         <Badges priority={'very-high'} />
                         Very High
@@ -132,6 +132,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                           setPriority(e.target.value);
                           setName(e.target.name);
                         }}
+                        data-cy='data-cy=modal-add-priority-item'
                       >
                         <Badges priority={'high'} />
                         High
@@ -143,6 +144,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                           setPriority(e.target.value);
                           setName(e.target.name);
                         }}
+                        data-cy='data-cy=modal-add-priority-item'
                       >
                         <Badges priority={'normal'} />
                         Medium
@@ -154,6 +156,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                           setPriority(e.target.value);
                           setName(e.target.name);
                         }}
+                        data-cy='data-cy=modal-add-priority-item'
                       >
                         <Badges priority={'low'} />
                         Low
@@ -165,6 +168,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                           setPriority(e.target.value);
                           setName(e.target.name);
                         }}
+                        data-cy='data-cy=modal-add-priority-item'
                       >
                         <Badges priority={'very-low'} />
                         Very Low
@@ -186,6 +190,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                     onClose();
                     setIsAdd(!isAdd);
                   }}
+                  isDisabled={!watch('title')}
                 >
                   Submit
                 </Button>

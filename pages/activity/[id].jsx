@@ -31,7 +31,7 @@ import { TbPencil, TbArrowsDownUp } from 'react-icons/tb';
 const DetailsActivity = () => {
   const router = useRouter();
   const activityId = router.query.id;
-  const titleRef = useRef();
+  // const titleRef = useRef();
   const [result, setResult] = useState(null);
   const [edit, setEdit] = useState(false);
   const [isAdd] = useContext(IsAddContext);
@@ -48,13 +48,13 @@ const DetailsActivity = () => {
       .then((data) => {
         setResult(data);
         setTodoItems(data?.todo_items);
-        setValue('title', data?.title);
+        setValue('todo-title', data?.title);
       });
   }, [isAdd, activityId, setValue, isDelete, setResult]);
 
   const onSubmit = () => {
     const data = {
-      title: watch('title'),
+      title: watch('todo-title'),
     };
 
     updateTitle(activityId, data);
@@ -95,21 +95,34 @@ const DetailsActivity = () => {
             />
 
             <FormControl display={'flex'} alignItems='center'>
-              <Input
-                {...register('title')}
-                data-cy='todo-title'
-                type={'text'}
-                fontWeight='bold'
-                fontSize={'3xl'}
-                variant={'unstyled'}
-                onBlur={onSubmit}
-              />
+              {edit ? null : (
+                <Text
+                  onClick={() => setEdit(!edit)}
+                  fontSize={'36px'}
+                  fontWeight={'700'}
+                >
+                  {watch('todo-title')}
+                </Text>
+              )}
+
+              {edit && (
+                <Input
+                  data-cy='todo-title'
+                  {...register('todo-title')}
+                  type={'text'}
+                  fontWeight='bold'
+                  fontSize={'3xl'}
+                  variant={'unstyled'}
+                  onBlur={onSubmit}
+                />
+              )}
 
               <Button
                 onClick={() => setEdit(!edit)}
                 variant={'unstyled'}
                 display='flex'
                 alignItems={'center'}
+                data-cy='todo-title-edit-button'
               >
                 <Icon as={TbPencil} w={6} h={6} color='#C4C4C4' />
               </Button>

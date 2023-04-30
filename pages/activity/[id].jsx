@@ -95,27 +95,16 @@ const DetailsActivity = () => {
             />
 
             <FormControl display={'flex'} alignItems='center'>
-              {edit ? null : (
-                <Text
-                  onClick={() => setEdit(!edit)}
-                  fontSize={'36px'}
-                  fontWeight={'700'}
-                >
-                  {watch('todo-title')}
-                </Text>
-              )}
-
-              {edit && (
-                <Input
-                  data-cy='todo-title'
-                  {...register('todo-title')}
-                  type={'text'}
-                  fontWeight='bold'
-                  fontSize={'3xl'}
-                  variant={'unstyled'}
-                  onBlur={onSubmit}
-                />
-              )}
+              <Input
+                data-cy='todo-title'
+                {...register('todo-title')}
+                type={'text'}
+                fontWeight='bold'
+                fontSize={'3xl'}
+                variant={'unstyled'}
+                onBlur={onSubmit}
+                value={watch('toro-title')}
+              />
 
               <Button
                 onClick={() => setEdit(!edit)}

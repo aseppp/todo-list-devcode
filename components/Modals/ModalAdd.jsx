@@ -99,7 +99,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                   <Dropdown
                     selected={selected}
                     setSelected={setSelected}
-                    data-cy='modal-add-name-input'
+                    // data-cy='modal-add-priority-dropdown'
                   />
                 </FormControl>
               </ModalBody>
@@ -115,8 +115,8 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                     onClose();
                     setIsAdd(!isAdd);
                   }}
-                  isDisabled={!watch('title')}
                   data-cy='modal-add-save-button'
+                  isDisabled={!watch('title')}
                 >
                   Submit
                 </Button>

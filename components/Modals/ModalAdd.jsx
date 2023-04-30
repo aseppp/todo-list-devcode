@@ -101,91 +101,12 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                     setSelected={setSelected}
                     data-cy='modal-add-name-input'
                   />
-
-                  {/* <Menu data-cy='modal-add-priority-dropdown'>
-                    <MenuButton
-                      as={Button}
-                      rightIcon={<RiArrowDropDownLine size={'25px'} />}
-                    >
-                      <Box display='flex' alignItems={'center'}>
-                        <Badges priority={priority} />
-                        <Text>{name}</Text>
-                      </Box>
-                    </MenuButton>
-
-                    <MenuList>
-                      <MenuItem
-                        value={'very-high'}
-                        name='Very High'
-                        onClick={(e) => {
-                          setPriority(e.target.value);
-                          setName(e.target.name);
-                        }}
-                        data-cy='data-cy=modal-add-priority-item'
-                      >
-                        <Badges priority={'very-high'} />
-                        Very High
-                      </MenuItem>
-                      <MenuItem
-                        value={'high'}
-                        name='High'
-                        onClick={(e) => {
-                          setPriority(e.target.value);
-                          setName(e.target.name);
-                        }}
-                        data-cy='data-cy=modal-add-priority-item'
-                      >
-                        <Badges priority={'high'} />
-                        High
-                      </MenuItem>
-                      <MenuItem
-                        value={'normal'}
-                        name='Medium'
-                        onClick={(e) => {
-                          setPriority(e.target.value);
-                          setName(e.target.name);
-                        }}
-                        data-cy='data-cy=modal-add-priority-item'
-                      >
-                        <Badges priority={'normal'} />
-                        Medium
-                      </MenuItem>
-                      <MenuItem
-                        value={'low'}
-                        name='Low'
-                        onClick={(e) => {
-                          setPriority(e.target.value);
-                          setName(e.target.name);
-                        }}
-                        data-cy='data-cy=modal-add-priority-item'
-                      >
-                        <Badges priority={'low'} />
-                        Low
-                      </MenuItem>
-                      <MenuItem
-                        value={'very-low'}
-                        name='Very Low'
-                        onClick={(e) => {
-                          setPriority(e.target.value);
-                          setName(e.target.name);
-                        }}
-                        data-cy='data-cy=modal-add-priority-item'
-                      >
-                        <Badges priority={'very-low'} />
-                        Very Low
-                      </MenuItem>
-                    </MenuList>
-                  </Menu> */}
                 </FormControl>
               </ModalBody>
 
               <Divider size='lg' orientation='horizontal' zIndex={1} />
-              <Box
-                data-cy='modal-add-save-button'
-                display={'flex'}
-                justifyContent='end'
-                my={5}
-              >
+
+              <Box display={'flex'} justifyContent='end' my={5}>
                 <Button
                   type='submit'
                   colorScheme='blue'

@@ -31,9 +31,10 @@ import { TbPencil, TbArrowsDownUp } from 'react-icons/tb';
 const DetailsActivity = () => {
   const router = useRouter();
   const activityId = router.query.id;
-  // const titleRef = useRef();
+
   const [result, setResult] = useState(null);
   const [edit, setEdit] = useState(false);
+  const [title, setTitle] = useState('');
   const [isAdd] = useContext(IsAddContext);
   const [isDelete] = useContext(AlertContext);
   const [selected, setSelected] = useState('');
@@ -41,6 +42,10 @@ const DetailsActivity = () => {
 
   const modalAdd = useDisclosure();
   const { register, watch, setValue } = useForm();
+
+  const titleRef = useRef();
+  const inputRef = useRef();
+  const editRef = useRef();
 
   useEffect(() => {
     fetch(`https://todo.api.devcode.gethired.id/activity-groups/${activityId}`)
@@ -52,15 +57,32 @@ const DetailsActivity = () => {
       });
   }, [isAdd, activityId, setValue, isDelete, setResult]);
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const data = {
       title: watch('todo-title'),
     };
 
-    updateTitle(activityId, data);
+    await updateTitle(activityId, data);
   };
 
-  console.log({ todoItems, selected });
+  useEffect(() => {
+    setValue('todo-title', watch('todo-title'));
+  }, [title, setValue, watch]);
+
+  // console.log({ todoItems, selected });
+
+  const handleShowInput = (e) => {
+    if (
+      e.target === inputRef.current ||
+      e.target === titleRef.current ||
+      e.target === editRef.current
+    ) {
+      setEdit(true);
+      setValue('todo-title', watch('todo-title'));
+    } else {
+      setEdit(false);
+    }
+  };
 
   return (
     <>
@@ -85,6 +107,7 @@ const DetailsActivity = () => {
           display='flex'
           justifyContent={'space-between'}
           alignItems='center'
+          onClick={(e) => handleShowInput(e)}
         >
           <Box display='flex' alignItems='center' gap={4}>
             <Icon
@@ -95,16 +118,29 @@ const DetailsActivity = () => {
             />
 
             <FormControl display={'flex'} alignItems='center'>
-              <Input
-                data-cy='todo-title'
-                {...register('todo-title')}
-                type={'text'}
-                fontWeight='bold'
-                fontSize={'3xl'}
-                variant={'unstyled'}
-                onBlur={onSubmit}
-                value={watch('toro-title')}
-              />
+              {edit ? (
+                <Input
+                  {...register('todo-title')}
+                  value={watch('todo-title' || '')}
+                  type={'text'}
+                  fontWeight='bold'
+                  fontSize={'3xl'}
+                  variant={'unstyled'}
+                  onBlur={onSubmit}
+                  onChange={(e) => setValue('todo-title', e.target.value)}
+                  ref={inputRef}
+                  data-cy='todo-title'
+                />
+              ) : (
+                <Text
+                  fontWeight='bold'
+                  fontSize={'3xl'}
+                  data-cy='todo-title'
+                  ref={titleRef}
+                >
+                  {watch('todo-title')}
+                </Text>
+              )}
 
               <Button
                 onClick={() => setEdit(!edit)}
@@ -112,6 +148,7 @@ const DetailsActivity = () => {
                 display='flex'
                 alignItems={'center'}
                 data-cy='todo-title-edit-button'
+                ref={editRef}
               >
                 <Icon as={TbPencil} w={6} h={6} color='#C4C4C4' />
               </Button>

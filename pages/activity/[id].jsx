@@ -11,7 +11,6 @@ import {
   Container,
   FormControl,
   Icon,
-  Image,
   Input,
   Menu,
   MenuButton,
@@ -80,9 +79,6 @@ const DetailsActivity = () => {
   }, [isFocus]);
 
   const onFocus = () => setIsFocus(true);
-
-  // console.log({ todoItems, selected });
-
   const handleShowInput = (e) => {
     if (
       e.target === inputRef.current ||

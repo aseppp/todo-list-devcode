@@ -22,20 +22,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Badges from '../Badge/Badge';
 import { RiArrowDropDownLine } from 'react-icons/ri';
-
-// const options = [
-//   { label: 'Very High', value: 'very-high' },
-//   { label: 'High', value: 'high' },
-//   { label: 'Medium', value: 'normal' },
-//   { label: 'Low', value: 'low' },
-//   { label: 'Very Low', value: 'very-low' },
-// ];
+import Dropdown from '../Dropdown/Dropdown';
 
 const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
   const [isAdd, setIsAdd] = useContext(IsAddContext);
-  const [priority, setPriority] = useState('');
-  const [name, setName] = useState('Select Priority');
-  const { register, watch, handleSubmit } = useForm();
+  const [selected, setSelected] = useState('Very High');
+  // const [priority, setPriority] = useState('');
+  // const [name, setName] = useState('Select Priority');
+  const { register, watch, handleSubmit, setValue } = useForm();
 
   console.log(watch());
 
@@ -44,10 +38,11 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
       const data = {
         title: watch('title'),
         activity_group_id: groupId,
-        priority: priority,
+        priority: selected,
       };
       saveTask(data);
       setIsAdd((prevState) => !prevState);
+      setValue('title', '');
     }
 
     if (type === 'update') {
@@ -101,7 +96,13 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                     priority
                   </FormLabel>
 
-                  <Menu data-cy='modal-add-priority-dropdown'>
+                  <Dropdown
+                    selected={selected}
+                    setSelected={setSelected}
+                    data-cy='modal-add-name-input'
+                  />
+
+                  {/* <Menu data-cy='modal-add-priority-dropdown'>
                     <MenuButton
                       as={Button}
                       rightIcon={<RiArrowDropDownLine size={'25px'} />}
@@ -174,23 +175,27 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                         Very Low
                       </MenuItem>
                     </MenuList>
-                  </Menu>
+                  </Menu> */}
                 </FormControl>
               </ModalBody>
 
-              <Divider size='lg' orientation='horizontal' />
-              <Box display={'flex'} justifyContent='end' my={5}>
+              <Divider size='lg' orientation='horizontal' zIndex={1} />
+              <Box
+                data-cy='modal-add-save-button'
+                display={'flex'}
+                justifyContent='end'
+                my={5}
+              >
                 <Button
-                  data-cy='modal-add-save-button'
                   type='submit'
                   colorScheme='blue'
                   mr={3}
-                  // onClick={onClose}
                   onClick={() => {
                     onClose();
                     setIsAdd(!isAdd);
                   }}
                   isDisabled={!watch('title')}
+                  data-cy='modal-add-save-button'
                 >
                   Submit
                 </Button>

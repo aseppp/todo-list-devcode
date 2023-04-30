@@ -57,12 +57,12 @@ const DetailsActivity = () => {
       });
   }, [isAdd, activityId, setValue, isDelete, setResult]);
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
     const data = {
       title: watch('todo-title'),
     };
 
-    await updateTitle(activityId, data);
+    updateTitle(activityId, data);
   };
 
   useEffect(() => {

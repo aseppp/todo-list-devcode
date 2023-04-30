@@ -34,7 +34,8 @@ const DetailsActivity = () => {
 
   const [result, setResult] = useState(null);
   const [edit, setEdit] = useState(false);
-  const [title, setTitle] = useState('');
+  const [isFocus, setIsFocus] = useState(false);
+
   const [isAdd] = useContext(IsAddContext);
   const [isDelete] = useContext(AlertContext);
   const [selected, setSelected] = useState('');
@@ -63,11 +64,22 @@ const DetailsActivity = () => {
     };
 
     updateTitle(activityId, data);
+    setIsFocus(false);
   };
 
   useEffect(() => {
     setValue('todo-title', watch('todo-title'));
-  }, [title, setValue, watch]);
+  }, [setValue, watch]);
+
+  useEffect(() => {
+    if (edit) inputRef.current.focus();
+  }, [edit]);
+
+  useEffect(() => {
+    if (!isFocus) setEdit(false);
+  }, [isFocus]);
+
+  const onFocus = () => setIsFocus(true);
 
   // console.log({ todoItems, selected });
 
@@ -127,7 +139,9 @@ const DetailsActivity = () => {
                   fontSize={'3xl'}
                   variant={'unstyled'}
                   onBlur={onSubmit}
+                  onFocus={onFocus}
                   onChange={(e) => setValue('todo-title', e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && onSubmit()}
                   ref={inputRef}
                   data-cy='todo-title'
                 />

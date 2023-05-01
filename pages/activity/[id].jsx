@@ -116,9 +116,9 @@ const DetailsActivity = () => {
       case 'oldest':
         return todoItems?.sort((a, b) => a.id - b.id);
       case 'az':
-        return todoItems?.sort((a, b) => a.title.localeCompare(b.title));
+        return todoItems?.sort((a, b) => b.title.localeCompare(a.title));
       case 'za':
-        return todoItems?.sort((a, b) => -1 * a.title.localeCompare(b.title));
+        return todoItems?.sort((a, b) => -1 * b.title.localeCompare(a.title));
       case 'unfinished':
         return todoItems?.sort((a, b) => b.is_active - a.is_active);
     }

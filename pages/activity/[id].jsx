@@ -211,7 +211,7 @@ const DetailsActivity = () => {
                 <Icon as={TbArrowsDownUp} />
               </MenuButton>
 
-              <MenuList data-cy='sort-selection'>
+              <MenuList>
                 {options.map((item, key) => (
                   <MenuItem
                     key={key}

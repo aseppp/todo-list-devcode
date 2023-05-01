@@ -26,6 +26,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowBack } from 'react-icons/io';
+import { MdDone } from 'react-icons/md';
 import { TbPencil, TbArrowsDownUp } from 'react-icons/tb';
 
 const options = [
@@ -107,6 +108,10 @@ const DetailsActivity = () => {
 
   const handleDropdown = (option) => {
     setSelected(option);
+  };
+
+  const handleCheck = (data) => {
+    setTodoItems(data);
   };
 
   const handleFilter = (selected) => {
@@ -218,24 +223,30 @@ const DetailsActivity = () => {
                     data-cy='sort-selection'
                     display={'flex'}
                     alignItems={'center'}
-                    gap={3}
+                    justifyContent={'space-between'}
                   >
-                    <Image
-                      data-cy='sort-selection-icon'
-                      src={item.imageUrl}
-                      width={25}
-                      height={25}
-                      alt=''
-                    />
-                    <Text
-                      data-cy={`${
-                        selected === item.value
-                          ? 'sort-selection-selected'
-                          : 'false'
-                      }`}
-                    >
-                      {item.title}
-                    </Text>
+                    <Box display={'flex'} alignItems={'center'} gap={3}>
+                      <Image
+                        data-cy='sort-selection-icon'
+                        src={item.imageUrl}
+                        width={25}
+                        height={25}
+                        alt=''
+                      />
+                      <Text
+                        data-cy={`${
+                          selected === item.value
+                            ? 'sort-selection-selected'
+                            : 'false'
+                        }`}
+                      >
+                        {item.title}
+                      </Text>
+                    </Box>
+
+                    {selected === item.value && (
+                      <Icon as={MdDone} w={5} h={5} color={'#4A4A4A'} />
+                    )}
                   </MenuItem>
                 ))}
               </MenuList>
@@ -265,6 +276,8 @@ const DetailsActivity = () => {
                   priority={item.priority}
                   id={item.id}
                   is_active={item.is_active}
+                  listItems={todoItems}
+                  setListItems={handleCheck}
                 />
               </Box>
             ))}

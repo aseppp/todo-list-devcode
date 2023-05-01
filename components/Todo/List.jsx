@@ -14,30 +14,35 @@ import ModalDelete from '../Modals/ModalDelete';
 import ModalAdd from '../Modals/ModalAdd';
 import { IsAddContext } from '@/context/IsAddContext';
 
-const List = ({ title, priority, id, is_active }) => {
+const List = ({ title, priority, id, is_active, listItems, setListItems }) => {
   const [isChecked, setIsChecked] = useState(is_active);
   const [isAdd, setIsAdd] = useContext(IsAddContext);
   const modalDelete = useDisclosure();
   const modalTask = useDisclosure();
 
-  const handleUpdate = () => {
-    if (is_active === 0) {
-      const status = {
-        is_active: 1,
-      };
-      updateStatus(id, status);
-    }
-    if (is_active === 1) {
-      const status = {
-        is_active: 0,
-      };
-      updateStatus(id, status);
-    }
-  };
-
   const handleChecked = () => {
     setIsChecked((prevValue) => !prevValue);
-    handleUpdate();
+
+    let items = [];
+    for (let i = 0; i < listItems.length; i++) {
+      if (listItems[i].id !== id) {
+        items.push(listItems[i]);
+      } else {
+        items.push({
+          ...listItems[i],
+          is_active: listItems[i].is_active === 1 ? 0 : 1,
+        });
+      }
+    }
+    setListItems(items);
+    const updatedItem = items.find((item) => item.id === id);
+    console.log(updatedItem);
+    const data = {
+      title: updatedItem?.data,
+      is_active: updatedItem?.is_active,
+      priority: updatedItem?.priority,
+    };
+    updateStatus(id, data);
     setIsAdd(!isAdd);
   };
 
@@ -59,7 +64,7 @@ const List = ({ title, priority, id, is_active }) => {
             data-cy='todo-item-checkbox'
             size={'lg'}
             onChange={handleChecked}
-            isChecked={!isChecked}
+            isChecked={is_active === 0}
           />
 
           <Badges data-cy='todo-item-priority-indicator' priority={priority} />

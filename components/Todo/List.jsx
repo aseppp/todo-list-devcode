@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -15,25 +15,36 @@ import ModalAdd from '../Modals/ModalAdd';
 import { IsAddContext } from '@/context/IsAddContext';
 
 const List = ({ title, priority, id, is_active }) => {
-  const [isChecked, setIsChecked] = useState(is_active === 0);
+  const [isChecked, setIsChecked] = useState(is_active);
   const [isAdd, setIsAdd] = useContext(IsAddContext);
   const modalDelete = useDisclosure();
   const modalTask = useDisclosure();
 
   const handleUpdate = () => {
-    if (is_active === 0) {
-      const status = {
-        is_active: 1,
-      };
-      updateStatus(id, status);
-    }
-    if (is_active === 1) {
-      const status = {
-        is_active: 0,
-      };
-      updateStatus(id, status);
-    }
+    updateStatus(id, { is_active: isChecked });
+
+    // if (is_active === 0) {
+    //   const status = {
+    //     is_active: 1,
+    //   };
+    //   updateStatus(id, status);
+    // }
+    // if (is_active === 1) {
+    //   const status = {
+    //     is_active: 0,
+    //   };
+    // updateStatus(id, status);
+    // }
   };
+
+  // useEffect(() => {
+  //   // if (is_active === 0) {
+  //   //   const status = {
+  //   //     is_active: isChecked,
+  //   //   };
+  //   // }
+  //   updateStatus(id, isChecked);
+  // }, [isChecked, id]);
 
   const handleChecked = () => {
     setIsChecked((prevValue) => !prevValue);
@@ -58,9 +69,10 @@ const List = ({ title, priority, id, is_active }) => {
           <Checkbox
             data-cy='todo-item-checkbox'
             size={'lg'}
-            onChange={() => handleChecked()}
-            isChecked={isChecked}
+            onChange={handleChecked}
+            isChecked={!isChecked}
           />
+
           <Badges data-cy='todo-item-priority-indicator' priority={priority} />
 
           <Text
@@ -68,7 +80,7 @@ const List = ({ title, priority, id, is_active }) => {
             fontSize={'18px'}
             lineHeight='27px'
             fontWeight={500}
-            textDecoration={isChecked ? 'line-through' : null}
+            textDecoration={!isChecked ? 'line-through' : null}
           >
             {title}
           </Text>

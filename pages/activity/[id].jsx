@@ -226,43 +226,16 @@ const DetailsActivity = () => {
 
         {todoItems?.length > 0 ? (
           <Box>
-            {todoItems
-              ?.sort((a, b) => {
-                if (selected === 'terbaru') {
-                  const id1 = a.id;
-                  const id2 = b.id;
-                  if (id1 > id2) return -1;
-                } else if (selected === 'terlama') {
-                  const id1 = a.id;
-                  const id2 = b.id;
-                  if (id1 < id2) return -1;
-                } else if (selected === 'asc') {
-                  const title1 = a.title;
-                  const title2 = b.title;
-                  if (title1 < title2) return -1;
-                } else if (selected === 'desc') {
-                  const title1 = a.title;
-                  const title2 = b.title;
-                  if (title1 > title2) return -1;
-                } else if (selected === 'belum-selesai') {
-                  console.log(selected);
-                  const task1 = a.is_active;
-                  const task2 = b.is_active;
-                  if (task1 > task2) return -1;
-                } else {
-                  return 0;
-                }
-              })
-              ?.map((item, key) => (
-                <Box key={key} data-cy='list-item'>
-                  <List
-                    title={item?.title}
-                    priority={item.priority}
-                    id={item.id}
-                    is_active={item.is_active}
-                  />
-                </Box>
-              ))}
+            {todoItems?.map((item, key) => (
+              <Box key={key} data-cy='list-item'>
+                <List
+                  title={item?.title}
+                  priority={item.priority}
+                  id={item.id}
+                  is_active={item.is_active}
+                />
+              </Box>
+            ))}
           </Box>
         ) : (
           <Activity />

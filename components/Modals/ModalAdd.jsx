@@ -49,6 +49,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
       updateTask(id, data);
       setIsAdd((prevState) => !prevState);
       setIsAdd(!isAdd);
+      setValue('title', '');
     }
   };
 

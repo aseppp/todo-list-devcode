@@ -22,23 +22,25 @@ const Card = ({ title, date, id }) => {
   const [isAdd, setIsAdd] = useContext(IsAddContext);
   const [isDelete, setIsDelete] = useContext(AlertContext);
 
-  const formatDate = dateString => {
+  const formatDate = (dateString) => {
     const date = dayjs(dateString).locale('id');
     return date.format('DD MMMM YYYY');
   };
 
-  const handleClick = e => {
-    if (e.target !== btnRef.current) router.push('/activity/' + id);
+  const handleClick = (e) => {
+    e.preventDefault();
+    if (e.target !== btnRef.current)
+      router.push('/activity/' + id, undefined, { shallow: true });
   };
 
-  const handleSubmit = id => {
+  const handleSubmit = (id) => {
     fetch(`https://todo.api.devcode.gethired.id/activity-groups/${id}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(() => {
-        setIsAdd(prevState => !prevState);
+        setIsAdd((prevState) => !prevState);
         setIsAdd(!isAdd);
       });
   };
@@ -58,72 +60,72 @@ const Card = ({ title, date, id }) => {
   return (
     <>
       <Box
-        data-cy="activity-item"
+        data-cy='activity-item'
         w={'235px'}
         h={'235px'}
         shadow={'0px 6px 10px rgba(0, 0, 0, 0.1)'}
         padding={5}
         borderRadius={'12px'}
-        bg="white"
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
-        cursor="pointer"
-        onClick={e => handleClick(e)}
+        bg='white'
+        display='flex'
+        flexDirection='column'
+        justifyContent='space-between'
+        cursor='pointer'
+        onClick={(e) => handleClick(e)}
       >
         <Text
-          data-cy="activity-item-title"
-          fontWeight="semibold"
+          data-cy='activity-item-title'
+          fontWeight='semibold'
           fontSize={['lg', 'lg', 'xl', 'xl']}
-          cursor="pointer"
+          cursor='pointer'
         >
           {title}
         </Text>
 
-        <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Box display='flex' alignItems='center' justifyContent='space-between'>
           <Text
-            data-cy="activity-item-date"
-            color="#888888"
-            fontSize="14px"
-            fontWeight="bold"
+            data-cy='activity-item-date'
+            color='#888888'
+            fontSize='14px'
+            fontWeight='bold'
           >
             {formatDate(date)}
           </Text>
           <Box
-            className="trash-icon"
-            data-cy="activity-item-delete-button"
+            className='trash-icon'
+            data-cy='activity-item-delete-button'
             ref={btnRef}
             onClick={modalDelete.onOpen}
           ></Box>
         </Box>
       </Box>
 
-      <Box data-cy="modal-delete">
+      <Box data-cy='modal-delete'>
         <Modal
-          data-cy="modal-delete"
+          data-cy='modal-delete'
           isOpen={modalDelete.isOpen}
           onClose={modalDelete.onClose}
-          size="2xl"
+          size='2xl'
         >
           <ModalOverlay />
           <ModalContent>
             <ModalBody
               my={8}
-              display="flex"
+              display='flex'
               justifyContent={'center'}
-              flexDirection="column"
+              flexDirection='column'
               alignItems={'center'}
             >
               <Image
-                data-cy="modal-delete-icon"
-                src="/modal-delete-icon.png"
-                width="120px"
-                height="120px"
-                alt=""
+                data-cy='modal-delete-icon'
+                src='/modal-delete-icon.png'
+                width='120px'
+                height='120px'
+                alt=''
               />
-              <Box fontSize={'xl'} data-cy="modal-delete-title">
+              <Box fontSize={'xl'} data-cy='modal-delete-title'>
                 Apakah anda yakin menghapus
-                <Text fontWeight="bold" textAlign="center">
+                <Text fontWeight='bold' textAlign='center'>
                   {' "'}
                   {title}
                   {'"'}?
@@ -134,11 +136,11 @@ const Card = ({ title, date, id }) => {
             <Box
               display={'flex'}
               justifyContent={'center'}
-              alignItems="center"
+              alignItems='center'
               mb={5}
             >
               <Button
-                data-cy="modal-delete-cancel-button"
+                data-cy='modal-delete-cancel-button'
                 mr={3}
                 onClick={modalDelete.onClose}
               >
@@ -146,7 +148,7 @@ const Card = ({ title, date, id }) => {
               </Button>
 
               <Button
-                data-cy="modal-delete-confirm-button"
+                data-cy='modal-delete-confirm-button'
                 colorScheme={'red'}
                 mr={3}
                 onClick={() => {

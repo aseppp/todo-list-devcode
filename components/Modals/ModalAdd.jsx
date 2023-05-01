@@ -6,40 +6,34 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Text,
 } from '@chakra-ui/react';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Badges from '../Badge/Badge';
-import { RiArrowDropDownLine } from 'react-icons/ri';
+
 import Dropdown from '../Dropdown/Dropdown';
 
 const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
   const [isAdd, setIsAdd] = useContext(IsAddContext);
   const [selected, setSelected] = useState('Very High');
-  // const [priority, setPriority] = useState('');
-  // const [name, setName] = useState('Select Priority');
   const { register, watch, handleSubmit, setValue } = useForm();
 
-  console.log(watch());
-
   const onSubmit = () => {
+    let priority = selected.split(' ').join('-').toLowerCase();
+    priority = priority === 'medium' ? 'normal' : priority;
+
     if (type === 'create') {
       const data = {
         title: watch('title'),
         activity_group_id: groupId,
-        priority: selected,
+        priority: priority,
       };
+
       saveTask(data);
       setIsAdd((prevState) => !prevState);
       setValue('title', '');
@@ -96,11 +90,7 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
                     priority
                   </FormLabel>
 
-                  <Dropdown
-                    selected={selected}
-                    setSelected={setSelected}
-                    // data-cy='modal-add-priority-dropdown'
-                  />
+                  <Dropdown selected={selected} setSelected={setSelected} />
                 </FormControl>
               </ModalBody>
 

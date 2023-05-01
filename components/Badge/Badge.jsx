@@ -26,7 +26,7 @@ const Badges = ({ priority }) => {
     );
   }
 
-  if (priority === 'normal') {
+  if (priority === 'medium' || priority === 'normal') {
     return (
       <Box
         m={2}

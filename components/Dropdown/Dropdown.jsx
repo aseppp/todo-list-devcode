@@ -5,7 +5,7 @@ import Badges from '../Badge/Badge';
 
 const Dropdown = ({ selected, setSelected }) => {
   const [isActive, setIsActive] = useState(false);
-  const options = ['Very High', 'High', 'Normal', 'Low', 'Very Low'];
+  const options = ['Very High', 'High', 'Medium', 'Low', 'Very Low'];
 
   const labelPriority = (priority) => {
     return priority.split(' ').join('-').toLowerCase();

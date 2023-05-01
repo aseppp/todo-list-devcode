@@ -20,12 +20,25 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import Head from 'next/head';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowBack } from 'react-icons/io';
 import { TbPencil, TbArrowsDownUp } from 'react-icons/tb';
+
+const options = [
+  { title: 'Terbaru', value: 'latest', imageUrl: '/filter/terbaru.png' },
+  { title: 'Terlama', value: 'oldest', imageUrl: '/filter/terlama.png' },
+  { title: 'A-Z', value: 'az', imageUrl: '/filter/a-z.png' },
+  { title: 'Z-A', value: 'za', imageUrl: '/filter/z-a.png' },
+  {
+    title: 'Belum Selesai',
+    value: 'unfinished',
+    imageUrl: '/filter/unfinish.png',
+  },
+];
 
 const DetailsActivity = () => {
   const router = useRouter();
@@ -37,8 +50,8 @@ const DetailsActivity = () => {
 
   const [isAdd] = useContext(IsAddContext);
   const [isDelete] = useContext(AlertContext);
-  const [selected, setSelected] = useState('');
-  const [todoItems, setTodoItems] = useState([]);
+  const [selected, setSelected] = useState('latest');
+  const [todoItems, setTodoItems] = useState();
 
   const modalAdd = useDisclosure();
   const { register, watch, setValue } = useForm();
@@ -91,6 +104,35 @@ const DetailsActivity = () => {
       setEdit(false);
     }
   };
+
+  const handleDropdown = (option) => {
+    setSelected(option);
+  };
+
+  const handleFilter = (selected) => {
+    switch (selected) {
+      case 'latest':
+        console.log(selected);
+        todoItems?.sort((a, b) => b.id - a.id);
+      case 'oldest':
+        console.log(selected);
+        todoItems?.sort((a, b) => a.id - b.id);
+      case 'az':
+        console.log(selected);
+        todoItems?.sort((a, b) => a.title.localeCompare(b.title));
+      case 'za':
+        console.log(selected);
+        todoItems?.sort((a, b) => -1 * a.title.localeCompare(b.title));
+      case 'unfinished':
+        console.log(selected);
+        todoItems?.sort((a, b) => b.is_active - a.is_active);
+      // default:
+      //   console.log(selected);
+      //   todoItems?.sort((a, b) => b.id - a.id);
+    }
+  };
+
+  // useEffect(() => {}, [selected, todoItems]);
 
   return (
     <>
@@ -173,39 +215,37 @@ const DetailsActivity = () => {
               </MenuButton>
 
               <MenuList data-cy='sort-selection'>
-                <MenuItem
-                  onClick={(e) => setSelected(e.target.value)}
-                  value={'terbaru'}
-                >
-                  Terbaru
-                </MenuItem>
-                <MenuItem
-                  data-cy='sort-selection'
-                  onClick={(e) => setSelected(e.target.value)}
-                  value={'terlama'}
-                >
-                  Terlama
-                </MenuItem>
-                <MenuItem
-                  data-cy='todo-sort-button'
-                  onClick={(e) => setSelected(e.target.value)}
-                  value={'asc'}
-                >
-                  A-Z
-                </MenuItem>
-                <MenuItem
-                  data-cy='todo-sort-button'
-                  onClick={(e) => setSelected(e.target.value)}
-                  value={'desc'}
-                >
-                  Z-A
-                </MenuItem>
-                <MenuItem
-                  onClick={(e) => setSelected(e.target.value)}
-                  value={'belum-selesai'}
-                >
-                  Belum Selesai
-                </MenuItem>
+                {options.map((item, key) => (
+                  <MenuItem
+                    key={key}
+                    value={item.value}
+                    onClick={() => {
+                      handleDropdown(item.value);
+                      handleFilter(item.value);
+                    }}
+                    data-cy='sort-selection'
+                    display={'flex'}
+                    alignItems={'center'}
+                    gap={3}
+                  >
+                    <Image
+                      data-cy='sort-selection-icon'
+                      src={item.imageUrl}
+                      width={25}
+                      height={25}
+                      alt=''
+                    />
+                    <Text
+                      data-cy={`${
+                        selected === item.value
+                          ? 'sort-selection-selected'
+                          : 'false'
+                      }`}
+                    >
+                      {item.title}
+                    </Text>
+                  </MenuItem>
+                ))}
               </MenuList>
             </Menu>
 
@@ -240,23 +280,6 @@ const DetailsActivity = () => {
         ) : (
           <Activity />
         )}
-
-        {/* {todoItems?.length > 0 ? (
-          <Box>
-            {todoItems?.map((item, key) => (
-              <Box key={key} data-cy='list-item'>
-                <List
-                  title={item?.title}
-                  priority={item.priority}
-                  id={item.id}
-                  is_active={item.is_active}
-                />
-              </Box>
-            ))}
-          </Box>
-        ) : (
-          <Activity />
-        )} */}
       </Container>
 
       <ModalAdd

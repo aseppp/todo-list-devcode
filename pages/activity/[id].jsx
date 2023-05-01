@@ -207,7 +207,7 @@ const DetailsActivity = () => {
             </FormControl>
           </Box>
 
-          <Box display='flex' alignItems='center' gap={3}>
+          <Box display='flex' alignItems='center' gap={3} data-cy='sort-parent'>
             <Menu closeOnSelect={true} data-cy='sort-parent'>
               <MenuButton as={Button} data-cy='todo-sort-button'>
                 <Icon as={TbArrowsDownUp} />
@@ -227,7 +227,12 @@ const DetailsActivity = () => {
                     alignItems={'center'}
                     justifyContent={'space-between'}
                   >
-                    <Box display={'flex'} alignItems={'center'} gap={3}>
+                    <Box
+                      display={'flex'}
+                      alignItems={'center'}
+                      gap={3}
+                      data-cy='sort-selection'
+                    >
                       <Image
                         data-cy='sort-selection-icon'
                         src={item.imageUrl}

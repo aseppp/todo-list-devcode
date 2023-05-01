@@ -119,9 +119,7 @@ const DetailsActivity = () => {
       case 'latest':
         return todoItems?.sort((a, b) => b.id - a.id);
       case 'oldest':
-        // return todoItems?.sort((a, b) => a.id - b.id);
         return todoItems?.sort((a, b) => b.id - a.id).reverse();
-
       case 'az':
         return todoItems?.sort((a, b) =>
           b.title.localeCompare(a.title.localeCompare)
@@ -209,8 +207,8 @@ const DetailsActivity = () => {
             </FormControl>
           </Box>
 
-          <Box display='flex' alignItems='center' gap={3} data-cy='sort-parent'>
-            <Menu closeOnSelect={true} data-cy='sort-selection'>
+          <Box display='flex' alignItems='center' gap={3}>
+            <Menu closeOnSelect={true} data-cy='sort-parent'>
               <MenuButton as={Button} data-cy='todo-sort-button'>
                 <Icon as={TbArrowsDownUp} />
               </MenuButton>
@@ -229,12 +227,7 @@ const DetailsActivity = () => {
                     alignItems={'center'}
                     justifyContent={'space-between'}
                   >
-                    <Box
-                      display={'flex'}
-                      alignItems={'center'}
-                      gap={3}
-                      data-cy='sort-selection'
-                    >
+                    <Box display={'flex'} alignItems={'center'} gap={3}>
                       <Image
                         data-cy='sort-selection-icon'
                         src={item.imageUrl}
@@ -244,9 +237,7 @@ const DetailsActivity = () => {
                       />
                       <Box
                         data-cy={`${
-                          selected === item.value
-                            ? 'sort-selection-selected'
-                            : 'false'
+                          selected === item.value && 'sort-selection-selected'
                         }`}
                       >
                         <Text data-cy='sort-selection-title'>{item.title}</Text>

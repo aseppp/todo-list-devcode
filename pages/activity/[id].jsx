@@ -220,12 +220,17 @@ const DetailsActivity = () => {
                       handleDropdown(item.value);
                       handleFilter(item.value);
                     }}
-                    // data-cy='sort-selection'
+                    data-cy='sort-selection'
                     display={'flex'}
                     alignItems={'center'}
                     justifyContent={'space-between'}
                   >
-                    <Box display={'flex'} alignItems={'center'} gap={3}>
+                    <Box
+                      display={'flex'}
+                      alignItems={'center'}
+                      gap={3}
+                      data-cy='sort-selection'
+                    >
                       <Image
                         data-cy='sort-selection-icon'
                         src={item.imageUrl}

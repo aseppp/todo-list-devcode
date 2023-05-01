@@ -113,26 +113,21 @@ const DetailsActivity = () => {
     switch (selected) {
       case 'latest':
         console.log(selected);
-        todoItems?.sort((a, b) => b.id - a.id);
+        return todoItems?.sort((a, b) => b.id - a.id);
       case 'oldest':
         console.log(selected);
-        todoItems?.sort((a, b) => a.id - b.id);
+        return todoItems?.sort((a, b) => a.id - b.id);
       case 'az':
         console.log(selected);
-        todoItems?.sort((a, b) => a.title.localeCompare(b.title));
+        return todoItems?.sort((a, b) => a.title.localeCompare(b.title));
       case 'za':
         console.log(selected);
-        todoItems?.sort((a, b) => -1 * a.title.localeCompare(b.title));
+        return todoItems?.sort((a, b) => -1 * a.title.localeCompare(b.title));
       case 'unfinished':
         console.log(selected);
-        todoItems?.sort((a, b) => b.is_active - a.is_active);
-      // default:
-      //   console.log(selected);
-      //   todoItems?.sort((a, b) => b.id - a.id);
+        return todoItems?.sort((a, b) => b.is_active - a.is_active);
     }
   };
-
-  // useEffect(() => {}, [selected, todoItems]);
 
   return (
     <>

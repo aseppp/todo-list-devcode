@@ -102,14 +102,15 @@ const DetailsActivity = () => {
       </Head>
 
       <Container data-cy='new-activity' maxW={['100%', '100%', '1000px']}>
-        {isDelete && (
-          <Box data-cy='modal-information' pt={3}>
+        <Box data-cy='modal-information' pt={3}>
+          {isDelete && (
             <Alert data-cy='modal-information' status='success' variant='solid'>
               <AlertIcon />
               Delete task success!
             </Alert>
-          </Box>
-        )}
+          )}
+        </Box>
+
         <Box
           my={8}
           display='flex'

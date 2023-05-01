@@ -119,7 +119,7 @@ const DetailsActivity = () => {
       case 'latest':
         return todoItems?.sort((a, b) => b.id - a.id);
       case 'oldest':
-        return todoItems?.sort((a, b) => b.id - a.id).reverse();
+        return todoItems?.sort((a, b) => a.id - b.id);
       case 'az':
         return todoItems?.sort((a, b) =>
           b.title.localeCompare(a.title.localeCompare)
@@ -208,7 +208,7 @@ const DetailsActivity = () => {
           </Box>
 
           <Box display='flex' alignItems='center' gap={3}>
-            <Menu closeOnSelect={true} data-cy='sort-parent'>
+            <Menu closeOnSelect={true} data-cy='sort-selection'>
               <MenuButton as={Button} data-cy='todo-sort-button'>
                 <Icon as={TbArrowsDownUp} />
               </MenuButton>
@@ -227,7 +227,12 @@ const DetailsActivity = () => {
                     alignItems={'center'}
                     justifyContent={'space-between'}
                   >
-                    <Box display={'flex'} alignItems={'center'} gap={3}>
+                    <Box
+                      display={'flex'}
+                      alignItems={'center'}
+                      gap={3}
+                      data-cy='sort-selection'
+                    >
                       <Image
                         data-cy='sort-selection-icon'
                         src={item.imageUrl}
@@ -237,7 +242,9 @@ const DetailsActivity = () => {
                       />
                       <Box
                         data-cy={`${
-                          selected === item.value && 'sort-selection-selected'
+                          selected === item.value
+                            ? 'sort-selection-selected'
+                            : 'false'
                         }`}
                       >
                         <Text data-cy='sort-selection-title'>{item.title}</Text>

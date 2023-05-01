@@ -119,7 +119,9 @@ const DetailsActivity = () => {
       case 'latest':
         return todoItems?.sort((a, b) => b.id - a.id);
       case 'oldest':
-        return todoItems?.sort((a, b) => a.id - b.id);
+        // return todoItems?.sort((a, b) => a.id - b.id);
+        return todoItems?.sort((a, b) => b.id - a.id).reverse();
+
       case 'az':
         return todoItems?.sort((a, b) =>
           b.title.localeCompare(a.title.localeCompare)

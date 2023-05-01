@@ -211,7 +211,7 @@ const DetailsActivity = () => {
                 <Icon as={TbArrowsDownUp} />
               </MenuButton>
 
-              <MenuList>
+              <MenuList data-cy='sort-selection'>
                 {options.map((item, key) => (
                   <MenuItem
                     key={key}
@@ -220,7 +220,7 @@ const DetailsActivity = () => {
                       handleDropdown(item.value);
                       handleFilter(item.value);
                     }}
-                    data-cy='sort-selection'
+                    // data-cy='sort-selection'
                     display={'flex'}
                     alignItems={'center'}
                     justifyContent={'space-between'}

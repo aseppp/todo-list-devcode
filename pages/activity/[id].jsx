@@ -128,6 +128,8 @@ const DetailsActivity = () => {
         return todoItems?.sort((a, b) => -1 * b.title.localeCompare(a.title));
       case 'unfinished':
         return todoItems?.sort((a, b) => b.is_active - a.is_active);
+      default:
+        return todoItems?.sort((a, b) => b.id - a.id);
     }
   };
 
@@ -205,7 +207,7 @@ const DetailsActivity = () => {
             </FormControl>
           </Box>
 
-          <Box display='flex' alignItems='center' gap={3}>
+          <Box display='flex' alignItems='center' gap={3} data-cy='sort-parent'>
             <Menu closeOnSelect={true} data-cy='sort-selection'>
               <MenuButton as={Button} data-cy='todo-sort-button'>
                 <Icon as={TbArrowsDownUp} />

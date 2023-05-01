@@ -121,6 +121,8 @@ const DetailsActivity = () => {
         return todoItems?.sort((a, b) => -1 * b.title.localeCompare(a.title));
       case 'unfinished':
         return todoItems?.sort((a, b) => b.is_active - a.is_active);
+      default:
+        return todoItems?.sort((a, b) => b.id - a.id);
     }
   };
 

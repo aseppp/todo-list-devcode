@@ -112,19 +112,14 @@ const DetailsActivity = () => {
   const handleFilter = (selected) => {
     switch (selected) {
       case 'latest':
-        console.log(selected);
         return todoItems?.sort((a, b) => b.id - a.id);
       case 'oldest':
-        console.log(selected);
         return todoItems?.sort((a, b) => a.id - b.id);
       case 'az':
-        console.log(selected);
         return todoItems?.sort((a, b) => a.title.localeCompare(b.title));
       case 'za':
-        console.log(selected);
         return todoItems?.sort((a, b) => -1 * a.title.localeCompare(b.title));
       case 'unfinished':
-        console.log(selected);
         return todoItems?.sort((a, b) => b.is_active - a.is_active);
     }
   };

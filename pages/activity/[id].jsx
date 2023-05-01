@@ -124,21 +124,12 @@ const DetailsActivity = () => {
         return todoItems?.sort((a, b) =>
           b.title.localeCompare(a.title.localeCompare)
         );
-      // return todoItems?.sort(function (a, b) {
-      //   if (a.title > b.title) {
-      //     return 1;
-      //   } else if (a.title < b.title) {
-      //     return -1;
-      //   } else {
-      //     return 0;
-      //   }
-      // });
       case 'za':
         return todoItems?.sort((a, b) => -1 * b.title.localeCompare(a.title));
       case 'unfinished':
         return todoItems?.sort((a, b) => b.is_active - a.is_active);
       default:
-        return todoItems?.sort((a, b) => b.id - a.id);
+      // return todoItems?.sort((a, b) => b.id - a.id);
     }
   };
 

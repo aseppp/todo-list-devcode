@@ -21,30 +21,19 @@ const List = ({ title, priority, id, is_active }) => {
   const modalTask = useDisclosure();
 
   const handleUpdate = () => {
-    updateStatus(id, { is_active: isChecked });
-
-    // if (is_active === 0) {
-    //   const status = {
-    //     is_active: 1,
-    //   };
-    //   updateStatus(id, status);
-    // }
-    // if (is_active === 1) {
-    //   const status = {
-    //     is_active: 0,
-    //   };
-    // updateStatus(id, status);
-    // }
+    if (is_active === 0) {
+      const status = {
+        is_active: 1,
+      };
+      updateStatus(id, status);
+    }
+    if (is_active === 1) {
+      const status = {
+        is_active: 0,
+      };
+      updateStatus(id, status);
+    }
   };
-
-  // useEffect(() => {
-  //   // if (is_active === 0) {
-  //   //   const status = {
-  //   //     is_active: isChecked,
-  //   //   };
-  //   // }
-  //   updateStatus(id, isChecked);
-  // }, [isChecked, id]);
 
   const handleChecked = () => {
     setIsChecked((prevValue) => !prevValue);

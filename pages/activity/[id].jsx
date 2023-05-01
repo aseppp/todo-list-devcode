@@ -206,7 +206,7 @@ const DetailsActivity = () => {
           </Box>
 
           <Box display='flex' alignItems='center' gap={3}>
-            <Menu closeOnSelect={true}>
+            <Menu closeOnSelect={true} data-cy='sort-selection'>
               <MenuButton as={Button} data-cy='todo-sort-button'>
                 <Icon as={TbArrowsDownUp} />
               </MenuButton>

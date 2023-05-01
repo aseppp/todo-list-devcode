@@ -233,15 +233,15 @@ const DetailsActivity = () => {
                         height={25}
                         alt=''
                       />
-                      <Text
+                      <Box
                         data-cy={`${
                           selected === item.value
                             ? 'sort-selection-selected'
                             : 'false'
                         }`}
                       >
-                        {item.title}
-                      </Text>
+                        <Text data-cy='sort-selection-title'>{item.title}</Text>
+                      </Box>
                     </Box>
 
                     {selected === item.value && (

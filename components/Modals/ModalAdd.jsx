@@ -13,12 +13,12 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Dropdown from '../Dropdown/Dropdown';
 
-const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
+const ModalAdd = ({ isOpen, onClose, groupId, type, id, title }) => {
   const [isAdd, setIsAdd] = useContext(IsAddContext);
   const [selected, setSelected] = useState('Very High');
   const { register, watch, handleSubmit, setValue } = useForm();
@@ -48,10 +48,15 @@ const ModalAdd = ({ isOpen, onClose, groupId, type, id }) => {
 
       updateTask(id, data);
       setIsAdd((prevState) => !prevState);
-      setIsAdd(!isAdd);
       setValue('title', '');
     }
   };
+
+  useEffect(() => {
+    if (title) {
+      setValue('title', title);
+    }
+  }, [title, setValue]);
 
   return (
     <>

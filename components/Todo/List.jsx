@@ -15,14 +15,11 @@ import ModalAdd from '../Modals/ModalAdd';
 import { IsAddContext } from '@/context/IsAddContext';
 
 const List = ({ title, priority, id, is_active, listItems, setListItems }) => {
-  const [isChecked, setIsChecked] = useState(is_active);
   const [isAdd, setIsAdd] = useContext(IsAddContext);
   const modalDelete = useDisclosure();
   const modalTask = useDisclosure();
 
   const handleChecked = () => {
-    setIsChecked((prevValue) => !prevValue);
-
     let items = [];
     for (let i = 0; i < listItems.length; i++) {
       if (listItems[i].id !== id) {
@@ -36,7 +33,6 @@ const List = ({ title, priority, id, is_active, listItems, setListItems }) => {
     }
     setListItems(items);
     const updatedItem = items.find((item) => item.id === id);
-    console.log(updatedItem);
     const data = {
       title: updatedItem?.data,
       is_active: updatedItem?.is_active,
@@ -74,7 +70,7 @@ const List = ({ title, priority, id, is_active, listItems, setListItems }) => {
             fontSize={'18px'}
             lineHeight='27px'
             fontWeight={500}
-            textDecoration={!isChecked ? 'line-through' : null}
+            textDecoration={is_active === 0 ? 'line-through' : null}
           >
             {title}
           </Text>
@@ -114,6 +110,7 @@ const List = ({ title, priority, id, is_active, listItems, setListItems }) => {
         onClose={modalTask.onClose}
         id={id}
         type='update'
+        title={title}
       />
     </>
   );
